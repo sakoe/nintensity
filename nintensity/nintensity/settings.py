@@ -36,6 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
+    'south',
+    'fitgoals',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,6 +54,8 @@ ROOT_URLCONF = 'nintensity.urls'
 
 WSGI_APPLICATION = 'nintensity.wsgi.application'
 
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -58,7 +63,7 @@ WSGI_APPLICATION = 'nintensity.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'nintensity.db'),
     }
 }
 
@@ -80,3 +85,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'nintensity/templates'),)
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
