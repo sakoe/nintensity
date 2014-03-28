@@ -11,9 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
+   proposal
+
    fitgoalscode
-
-
 
 Indices and tables
 ==================
