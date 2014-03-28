@@ -1,4 +1,4 @@
-Documentation for the fitgoals code
+Documentation for fitgoals software
 ***********************************
 .. automodule:: fitgoals
    :members: 
