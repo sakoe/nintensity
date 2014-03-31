@@ -15,7 +15,7 @@ Contents:
 
    fitgoalscode
 
-   postgre
+   postgresql
 
 Indices and tables
 ==================
