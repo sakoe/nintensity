@@ -15,6 +15,8 @@ Contents:
 
    fitgoalscode
 
+   postgre
+
 Indices and tables
 ==================
 
