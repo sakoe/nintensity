@@ -13,9 +13,9 @@ Contents:
 
    proposal
 
-   fitgoalscode
+   api
 
-   postgresql
+   devtips
 
 Indices and tables
 ==================
