@@ -20,3 +20,7 @@ Python packages
 | psycopg2==2.5.2
 | wsgiref==0.1.2
 
+Install django-scheduler
+========================
+| pip install argparse --allow-external argparse --upgrade
+| pip install django-scheduler
