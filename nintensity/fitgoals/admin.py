@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.admin.sites import AdminSite
+from django.contrib.admin.sites import AdminSite, site
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin.forms import ERROR_MESSAGE
 from django import forms
@@ -62,6 +62,9 @@ class UserAdmin(AdminSite):
         """
         return request.user.is_active
 
+    def index(self, request, extra_context=None):
+        print request.user
+        return super(UserAdmin, self).index(request, extra_context=extra_context)
 
 class WorkoutLogAdmin(admin.ModelAdmin):
     list_display = (
@@ -72,7 +75,28 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         'created_date')
     readonly_fields = ['created_date']
 
-user_admin_site = UserAdmin(name='user')
 
+def autodiscover(usersite = site):
+    """
+    improved autodiscover function from django.contrib.admin
+    """
+
+    import copy
+    from django.conf import settings
+    from django.utils.importlib import import_module
+    from django.utils.module_loading import module_has_submodule
+
+    for app in settings.INSTALLED_APPS:
+        mod = import_module(app)
+
+        try:
+            before_import_registry = copy.copy(usersite._registry)
+            import_module('%s.admin' % app)
+        except:
+            usersite._registry = before_import_registry
+            if module_has_submodule(mod, 'admin'):
+                raise
+
+user_admin_site = UserAdmin(name='user')
 user_admin_site.register(WorkoutLog, WorkoutLogAdmin)
-admin.site.register(WorkoutLog, WorkoutLogAdmin)
+#admin.site.register(WorkoutLog, WorkoutLogAdmin)
