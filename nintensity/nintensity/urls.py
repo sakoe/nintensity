@@ -2,8 +2,10 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 from fitgoals.admin import user_admin_site
+from fitgoals.admin import autodiscover as user_site_autodiscover
 
 admin.autodiscover()
+user_site_autodiscover(usersite = user_admin_site)
 
 urlpatterns = patterns('',
                        url(r'^', include('fitgoals.urls')),
