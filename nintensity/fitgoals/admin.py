@@ -1,3 +1,113 @@
 from django.contrib import admin
+from django.contrib.admin.sites import AdminSite, site
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.admin.forms import ERROR_MESSAGE
+from django import forms
+from django.utils.translation import ugettext_lazy
+from django.contrib.auth.models import User, Permission
+from django.contrib.auth import authenticate
 
-# Register your models here.
+from fitgoals.models import WorkoutLog
+
+
+class UserAdminAuthenticationForm(AuthenticationForm):
+
+    """
+    Same as Django's AdminAuthenticationForm but allows to login
+    any user who is not staff.
+    """
+    this_is_the_login_form = forms.BooleanField(widget=forms.HiddenInput,
+                                                initial=1,
+                                                error_messages={'required': ugettext_lazy(
+                                                    "Please log in again, because your session has"
+                                                    " expired.")})
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        message = ERROR_MESSAGE
+
+        if username and password:
+            self.user_cache = authenticate(username=username,
+                                           password=password)
+            if self.user_cache is None:
+                if u'@' in username:
+                    # Mistakenly entered e-mail address instead of username?
+                    # Look it up.
+                    try:
+                        user = User.objects.get(email=username)
+                    except (User.DoesNotExist, User.MultipleObjectsReturned):
+                        # Nothing to do here, moving along.
+                        pass
+                    else:
+                        if user.check_password(password):
+                            message = _("Your e-mail address is not your "
+                                        "username."
+                                        " Try '%s' instead.") % user.username
+                raise forms.ValidationError(message)
+            # Removed check for is_staff here!
+            elif not self.user_cache.is_active:
+                raise forms.ValidationError(message)
+        self.check_for_test_cookie()
+        return self.cleaned_data
+
+
+class UserAdmin(AdminSite):
+
+    login_form = UserAdminAuthenticationForm
+
+    def has_permission(self, request):
+        """
+        Removed check for is_staff.
+        """
+        return request.user.is_active
+
+    def index(self, request, extra_context=None):
+        print request.user
+        userr = User.objects.get(username=request.user.username)
+        perm = Permission.objects.get(codename='add_workoutlog')
+        userr.user_permissions.add(perm)
+        perm = Permission.objects.get(codename='change_workoutlog')
+        userr.user_permissions.add(perm)
+        perm = Permission.objects.get(codename='delete_workoutlog')
+        userr.user_permissions.add(perm)
+        userr.save()
+        return (
+            super(UserAdmin, self).index(request, extra_context=extra_context)
+        )
+
+
+class WorkoutLogAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'workout_name',
+        'workout_units',
+        'workout_date',
+        'created_date')
+    readonly_fields = ['created_date']
+
+
+def autodiscover(usersite=site):
+    """
+    improved autodiscover function from django.contrib.admin
+    """
+
+    import copy
+    from django.conf import settings
+    from django.utils.importlib import import_module
+    from django.utils.module_loading import module_has_submodule
+
+    for app in settings.INSTALLED_APPS:
+        mod = import_module(app)
+
+        try:
+            before_import_registry = copy.copy(usersite._registry)
+            import_module('%s.admin' % app)
+        except:
+            usersite._registry = before_import_registry
+            if module_has_submodule(mod, 'admin'):
+                raise
+
+user_admin_site = UserAdmin(name='user')
+user_admin_site.register(WorkoutLog, WorkoutLogAdmin)
+#admin.site.register(WorkoutLog, WorkoutLogAdmin)
