@@ -7,3 +7,13 @@ fitgoals.views
 ==============
 .. automodule:: fitgoals.views
    :members: 
+
+fitgoals.models
+===============
+.. automodule:: fitgoals.models
+   :members: 
+
+fitgoals.admin
+===============
+.. automodule:: fitgoals.admin
+   :members: 
