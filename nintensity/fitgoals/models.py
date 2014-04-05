@@ -3,7 +3,10 @@
 """
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission
+from django.core.validators import MaxValueValidator
 from registration.signals import user_activated
+
+
 
 
 class WorkoutLog(models.Model):
@@ -15,6 +18,8 @@ class WorkoutLog(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField(auto_now_add=True)
     workout_date = models.DateTimeField(blank=True, null=True)
+    workout_type = models.IntegerField(validators=[MaxValueValidator(15)]) # cChange this number if the number of workout types changes.
+
 
     def __unicode__(self):
         return self.workout_name
@@ -22,6 +27,8 @@ class WorkoutLog(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('fitgoals.views.details', args=[str(self.id)])
+
+    
 
 
 class Team(Group):

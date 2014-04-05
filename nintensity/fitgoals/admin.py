@@ -91,7 +91,8 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         'workout_name',
         'workout_units',
         'workout_date',
-        'created_date')
+        'created_date',
+        'workout_type',)
     readonly_fields = ['created_date']
 
 
