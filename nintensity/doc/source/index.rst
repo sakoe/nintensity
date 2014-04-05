@@ -17,6 +17,8 @@ Contents:
 
    devtips
 
+   brainstorming-models
+
 Indices and tables
 ==================
 
