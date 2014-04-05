@@ -1,7 +1,11 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
+from fitgoals.admin import user_admin_site
+from fitgoals.admin import autodiscover as user_site_autodiscover
+
 admin.autodiscover()
+user_site_autodiscover(usersite = user_admin_site)
 
 urlpatterns = patterns('',
                        url(r'^', include('fitgoals.urls')),
@@ -17,6 +21,7 @@ urlpatterns = patterns('',
                        url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete',
                            name='password_reset_complete'),
                        url(r'^admin/', include(admin.site.urls)),
+                       url(r'^user/', include(user_admin_site.urls)),
                        url(r'^login/$',
                            'django.contrib.auth.views.login',
                            {'template_name': 'login.html'},
