@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin.forms import ERROR_MESSAGE
 from django import forms
 from django.utils.translation import ugettext_lazy
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.contrib.auth import authenticate
 
 from fitgoals.models import WorkoutLog
@@ -64,7 +64,18 @@ class UserAdmin(AdminSite):
 
     def index(self, request, extra_context=None):
         print request.user
-        return super(UserAdmin, self).index(request, extra_context=extra_context)
+        userr = User.objects.get(username=request.user.username)
+        perm = Permission.objects.get(codename='add_workoutlog')
+        userr.user_permissions.add(perm)
+        perm = Permission.objects.get(codename='change_workoutlog')
+        userr.user_permissions.add(perm)
+        perm = Permission.objects.get(codename='delete_workoutlog')
+        userr.user_permissions.add(perm)
+        userr.save()
+        return (
+            super(UserAdmin, self).index(request, extra_context=extra_context)
+        )
+
 
 class WorkoutLogAdmin(admin.ModelAdmin):
     list_display = (
@@ -76,7 +87,7 @@ class WorkoutLogAdmin(admin.ModelAdmin):
     readonly_fields = ['created_date']
 
 
-def autodiscover(usersite = site):
+def autodiscover(usersite=site):
     """
     improved autodiscover function from django.contrib.admin
     """
