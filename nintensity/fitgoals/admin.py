@@ -1,10 +1,15 @@
+"""fitgoals admin
+
+   custom admin site for fitgoal users
+
+"""
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite, site
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin.forms import ERROR_MESSAGE
 from django import forms
 from django.utils.translation import ugettext_lazy
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 from fitgoals.models import WorkoutLog
@@ -53,6 +58,11 @@ class UserAdminAuthenticationForm(AuthenticationForm):
 
 
 class UserAdmin(AdminSite):
+    """
+    Subclass from Django AdminSite
+    Overload has_permission function to allow non-staff user to login
+    Overload index function to customize index page
+    """
 
     login_form = UserAdminAuthenticationForm
 
@@ -63,21 +73,19 @@ class UserAdmin(AdminSite):
         return request.user.is_active
 
     def index(self, request, extra_context=None):
-        print request.user
-        userr = User.objects.get(username=request.user.username)
-        perm = Permission.objects.get(codename='add_workoutlog')
-        userr.user_permissions.add(perm)
-        perm = Permission.objects.get(codename='change_workoutlog')
-        userr.user_permissions.add(perm)
-        perm = Permission.objects.get(codename='delete_workoutlog')
-        userr.user_permissions.add(perm)
-        userr.save()
+        """
+        Customize admin index page
+        """
         return (
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
 
 
 class WorkoutLogAdmin(admin.ModelAdmin):
+    """
+    Customize workout log admin page
+    """
+
     list_display = (
         'user',
         'workout_name',
