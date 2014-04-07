@@ -1,30 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
     <title>nintensity</title>
     <link type="text/css" rel="stylesheet" href="/static/django_fitgoals.css">
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="header">
-      <ul id="control-bar">
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">logout</a></li>
-      {% else %}
-        <li><a href="{% url 'login' %}">login</a></li>
-      {% endif %}
-      </ul>
+        <ul id="control-bar">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">login</a></li>
+        {% endif %}
+        </ul>
     </div>
     <div id="container">
-      <div id="content">
-      {% block content %}
-        {% if user.is_authenticated and user.is_staff %}
-         <a href="{% url 'admin:index' %}">Admin</a>
-        {% elif user.is_authenticated and not user.is_staff %}
-         <a href="{% url 'user:index' %}">Workout Log</a>
-        {% endif %}
-       [content will go here]
-      {% endblock %}
-      </div>
+        <div id="content">
+        {% block content %}
+        {% endblock %}
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
