@@ -18,7 +18,7 @@ class WorkoutLog(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField(auto_now_add=True)
     workout_date = models.DateTimeField(blank=True, null=True)
-    workout_type = models.IntegerField(validators=[MaxValueValidator(15)]) # cChange this number if the number of workout types changes.
+    workout_type = models.IntegerField(validators=[MaxValueValidator(15)]) # Change this number if the number of workout types changes.
 
 
     def __unicode__(self):
