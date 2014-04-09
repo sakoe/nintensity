@@ -11,9 +11,9 @@
     <div id="header">
         <ul id="control-bar">
         {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">logout</a></li>
+            <li id='auth'><a href="{% url 'logout' %}">logout</a></li>
         {% else %}
-            <li><a href="{% url 'login' %}">login</a></li>
+            <li id='auth'><a href="{% url 'login' %}">login</a></li>
         {% endif %}
         </ul>
     </div>
