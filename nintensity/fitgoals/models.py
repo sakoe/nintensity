@@ -8,17 +8,26 @@ from registration.signals import user_activated
 
 
 
+class WorkoutType(models.Model):
+    """
+    Model to use in the admin cotrol panel to add new workout types.
+    """
+    workout_type = models.CharField(max_length=128)
+    has_distance_component = models.BooleanField()
+
 
 class WorkoutLog(models.Model):
     """
     Model for workout log
     """
     workout_name = models.CharField(max_length=128)
-    workout_units = models.CharField(max_length=128)
-    user = models.ForeignKey(User)
+    workout_duration_hours = models.IntegerField()
+    workout_duration_minutes = models.IntegerField()
+    workout_distance_miles = models.IntegerField()
+    user = models.ForeignKey(User) # how do we get this to default to the logged-in user?
     created_date = models.DateTimeField(auto_now_add=True)
     workout_date = models.DateTimeField(blank=True, null=True)
-    workout_type = models.IntegerField(validators=[MaxValueValidator(15)]) # cChange this number if the number of workout types changes.
+    workout_type = models.ForeignKey('WorkoutType')
 
 
     def __unicode__(self):
