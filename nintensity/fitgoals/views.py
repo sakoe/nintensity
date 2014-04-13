@@ -1,13 +1,23 @@
 from django.shortcuts import render
 
 """
-.. module:: views
-   :platform: Unix
-   :synopsis: define views for gitgoals
 
 """
 
-def goals_view(request):
-    """ This provides goals view
+def root_view(request):
     """
-    return render(request, 'goals.html')
+    This provides the site's root view
+    """
+    return render(request, 'root_view.html')
+
+def teams_view(request):
+    """
+    This provides the site's teams view
+    """
+    return render(request, 'teams_view.html')
+
+def events_view(request):
+    """
+    This provides the site's events view
+    """
+    return render(request, 'events_view.html')

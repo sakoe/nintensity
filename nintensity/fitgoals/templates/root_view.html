@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.is_staff %}
+        <p>THIS SECTION DISPLAYS WHEN LOGGED IN AS ADMIN</p>
+        <p><a href="{% url 'admin:index' %}">View Site Admin</a></p>
+        {% elif user.is_authenticated and not user.is_staff %}
+        <p>THIS SECTION DISPLAYS WHEN LOGGED IN AS USER</p>
+        <p><a href="{% url 'user:index' %}">View Your Workout Log</a></p>
+        <p><a href="{% url 'teams_view' %}">View Teams</a></p>
+        <p><a href="{% url 'events_view' %}">View Events</a></p>
+        {% endif %}
+    {% else %}
+    <p>THIS IS THE DEFAULT ROOT VIEW CONTENT</p>   
+    <p>Welcome to fitgoals!</p>
+    <p>To see more of fitgoals, please <a href="{% url 'registration_register' %}">register</a>
+    and/or <a href="{% url 'login' %}">login</a></p>
+    {% endif %}
+{% endblock %}
