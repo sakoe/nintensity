@@ -15,6 +15,8 @@ class WorkoutType(models.Model):
     workout_type = models.CharField(max_length=128)
     has_distance_component = models.BooleanField()
 
+    def __unicode__(self):
+        return self.workout_type
 
 class WorkoutLog(models.Model):
     """
@@ -36,8 +38,6 @@ class WorkoutLog(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('fitgoals.views.details', args=[str(self.id)])
-
-    
 
 
 class Team(Group):
