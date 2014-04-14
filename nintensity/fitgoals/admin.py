@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-from fitgoals.models import WorkoutLog, WorkoutType
+from fitgoals.models import WorkoutLog, WorkoutType, Event
 
 
 class UserAdminAuthenticationForm(AuthenticationForm):
@@ -109,6 +109,20 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         )
     readonly_fields = ['created_date']
 
+class EventAdmin(admin.ModelAdmin):
+    """
+    Customize the event admin page.
+
+    """
+
+    list_display = (
+        'event_name',
+        'event_url',
+        'event_date',
+        'event_description',
+        'event_location',
+        )
+
 
 def autodiscover(usersite=site):
     """
@@ -133,5 +147,8 @@ def autodiscover(usersite=site):
 
 user_admin_site = UserAdmin(name='user')
 user_admin_site.register(WorkoutLog, WorkoutLogAdmin)
+user_admin_site.register(Event, EventAdmin)
+
 # admin.site.register(WorkoutLog, WorkoutLogAdmin)
 admin.site.register(WorkoutType, WorkoutTypeAdmin)
+
