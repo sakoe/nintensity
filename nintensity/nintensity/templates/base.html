@@ -3,7 +3,8 @@
 
 <head>
     <meta charset='utf-8'>
-    <title>nintensity</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>fitgoals{% if active != 'root' %} | {{ active }}{% endif %}</title>
     <link type="text/css" rel="stylesheet" href="/static/django_fitgoals.css">
 </head>
 
@@ -11,9 +12,15 @@
     <div id="header">
         <ul id="control-bar">
         {% if user.is_authenticated %}
-            <li id='auth'><a href="{% url 'logout' %}">logout</a></li>
+            <li id='auth'><a {% if active == 'login' %}id="active" {% endif %}href="{% url 'logout' %}">logout</a></li>
+            <li id='four'><a {% if active == 'events' %}id="active" {% endif %}href="{% url 'events_view' %}">events</a></li>
+            <li id='three'><a {% if active == 'teams' %}id="active" {% endif %}href="{% url 'teams_view' %}">teams</a></li>
+            <li id='two'><a {% if active == 'users' %}id="active" {% endif %}href="{% url 'users_view' %}">users</a></li>
+            <li id='one'><a {% if active == 'root' %}id="active" {% endif %}href="{% url 'root_view' %}">status</a></li>
         {% else %}
-            <li id='auth'><a href="{% url 'login' %}">login</a></li>
+            <li id='auth'><a {% if active == 'login' %}id="active" {% endif %}href="{% url 'login' %}">login</a></li>
+            <li id='four'><a {% if active == 'register' %}id="active" {% endif %}href="{% url 'registration_register' %}">register</a></li>
+            <li id='three'><a {% if active == 'root' %}id="active" {% endif %}href="{% url 'root_view' %}">fitgoals</a></li>
         {% endif %}
         </ul>
     </div>
