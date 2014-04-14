@@ -8,16 +8,30 @@ def root_view(request):
     """
     This provides the site's root view
     """
-    return render(request, 'root_view.html')
+    if len(request.path) <= 1:
+        context = {'active': 'root'}
+    return render(request, 'root_view.html', context)
+
+def users_view(request):
+    """
+    This provides the site's users view
+    """
+    if 'users' in request.path:
+        context = {'active': 'users'}
+    return render(request, 'users_view.html', context)
 
 def teams_view(request):
     """
     This provides the site's teams view
     """
-    return render(request, 'teams_view.html')
+    if 'teams' in request.path:
+        context = {'active': 'teams'}
+    return render(request, 'teams_view.html', context)
 
 def events_view(request):
     """
     This provides the site's events view
     """
-    return render(request, 'events_view.html')
+    if 'events' in request.path:
+        context = {'active': 'events'}
+    return render(request, 'events_view.html', context)
