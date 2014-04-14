@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
 from fitgoals.admin import user_admin_site
 from fitgoals.admin import autodiscover as user_site_autodiscover
