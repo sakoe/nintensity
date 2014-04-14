@@ -6,6 +6,7 @@
         <p><a href="{% url 'admin:index' %}">Django Admin</a></p>
         {% elif user.is_authenticated and not user.is_staff %}
         <p>(USER) ROOT VIEW DISPLAYS HERE WHEN LOGGED IN</p>
+        <p><a href="{% url 'user:index' %}">Workout Log</a></p>
         {% endif %}
     {% else %}
         <p>GENERIC ROOT VIEW DISPLAYS HERE WHEN LOGGED OUT</p>   
