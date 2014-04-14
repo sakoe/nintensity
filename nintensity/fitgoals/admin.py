@@ -58,6 +58,7 @@ class UserAdminAuthenticationForm(AuthenticationForm):
 
 
 class UserAdmin(AdminSite):
+
     """
     Subclass from Django AdminSite
     Overload has_permission function to allow non-staff user to login
@@ -80,7 +81,9 @@ class UserAdmin(AdminSite):
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
 
+
 class WorkoutTypeAdmin(admin.ModelAdmin):
+
     """
     Customize workout type admin page.
     """
@@ -88,11 +91,11 @@ class WorkoutTypeAdmin(admin.ModelAdmin):
     list_display = (
         'workout_type',
         'has_distance_component',
-        )
-
+    )
 
 
 class WorkoutLogAdmin(admin.ModelAdmin):
+
     """
     Customize workout log admin page
     """
@@ -106,10 +109,31 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         'workout_distance_miles',
         'workout_date',
         'created_date',
-        )
+    )
     readonly_fields = ['created_date']
 
+    def queryset(self, request):
+        qs = super(WorkoutLogAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user=request.user)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['queryset'] = User.objects.filter(
+                username=request.user.username)
+        return (
+            super(
+                WorkoutLogAdmin,
+                self).formfield_for_foreignkey(
+                db_field,
+                request,
+                **kwargs)
+        )
+
+
 class EventAdmin(admin.ModelAdmin):
+
     """
     Customize the event admin page.
 
@@ -121,7 +145,7 @@ class EventAdmin(admin.ModelAdmin):
         'event_date',
         'event_description',
         'event_location',
-        )
+    )
 
 
 def autodiscover(usersite=site):
@@ -151,4 +175,3 @@ user_admin_site.register(Event, EventAdmin)
 
 # admin.site.register(WorkoutLog, WorkoutLogAdmin)
 admin.site.register(WorkoutType, WorkoutTypeAdmin)
-

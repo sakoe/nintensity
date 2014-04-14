@@ -26,7 +26,7 @@ class WorkoutLog(models.Model):
     workout_duration_hours = models.IntegerField()
     workout_duration_minutes = models.IntegerField()
     workout_distance_miles = models.IntegerField()
-    user = models.ForeignKey(User) # how do we get this to default to the logged-in user?
+    user = models.ForeignKey(User)
     created_date = models.DateTimeField(auto_now_add=True)
     workout_date = models.DateTimeField(blank=True, null=True)
     workout_type = models.ForeignKey('WorkoutType')
