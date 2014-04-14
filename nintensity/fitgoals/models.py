@@ -40,12 +40,25 @@ class WorkoutLog(models.Model):
         return reverse('fitgoals.views.details', args=[str(self.id)])
 
 
+class Event(models.Model):
+    event_name = models.CharField(max_length=128)
+    event_description = models.TextField()
+    event_date = models.DateTimeField(auto_now=False, null=False)
+    event_location = models.CharField(max_length=128)
+    event_url = models.URLField(max_length=200)
+
 class Team(Group):
     """
     Model for workout log
     """
+    team_name = models.CharField(max_length=128)
     def __unicode__(self):
-        return u'%s' % (self.name)
+        return u'%s' % (self.team_name)
+
+class EventTeam(models.Model):
+    event_for_this_team = models.ForeignKey('Event')
+    team_for_this_event = models.ForeignKey('Team')
+
 
 
 def user_activated_callback(sender, user, request, **kwargs):
