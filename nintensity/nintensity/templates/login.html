@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+    {% if user.is_authenticated %}
+    <p>You are already logged in.</p>
+    {% else %}
     <form method="post" action=".">
         {% csrf_token %} 
         {{ form.as_p }}
@@ -9,4 +12,5 @@
     </form>
     <p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
     <p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+    {% endif %}
 {% endblock %}
