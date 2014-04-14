@@ -66,6 +66,7 @@ class UserAdmin(AdminSite):
     """
 
     login_form = UserAdminAuthenticationForm
+    login_template = 'admin/fitgoals/login.html'
 
     def has_permission(self, request):
         """
