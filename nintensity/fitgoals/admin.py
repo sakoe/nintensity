@@ -66,6 +66,8 @@ class UserAdmin(AdminSite):
     """
 
     login_form = UserAdminAuthenticationForm
+    login_template = 'admin/fitgoals/login.html'
+    index_template = 'admin/fitgoals/index.html'
 
     def has_permission(self, request):
         """
@@ -77,6 +79,9 @@ class UserAdmin(AdminSite):
         """
         Customize admin index page
         """
+	if extra_context is None:
+	    extra_context = {}
+	extra_context['title'] = 'My Fitgoals'
         return (
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
