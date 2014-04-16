@@ -9,17 +9,24 @@ border: 0; outline: 0; font-size: 100%; vertical-align: baseline;
 background: transparent;} article, aside, figure, footer, header, hgroup,
 nav, section {display: block;} html {-webkit-text-size-adjust: 100%;}
 
+
+
 /*GENERAL*/
 html {
     font-family: sans-serif;
+    background-color: rgb(222,222,222);
 }
+body {
+    background-color: rgb(255,255,255);
+}
+
+
 
 /*HEADER*/
 #header {
     height: 64px;
     width: 100%;
-    background-color:
-    rgb(244,244,244);
+    background-color: rgb(244,244,244);
     position: fixed;
     top: 0;
     -webkit-box-shadow: 0 1px 3px 0 rgba(222,222,222,1);
@@ -58,13 +65,14 @@ html {
     background-color: rgb(222,222,222);
 }
 
+
+
 /*CONTENT*/
 #container {
     margin: 64px auto 0;
+    padding: 40px 0;
     width: 960px;
-}
-#container form {
-    
+    min-height: 768px;
 }
 #container p {
     padding: 0 40px 22px;
@@ -72,6 +80,77 @@ html {
     line-height: 30px;
     text-align: justify;
 }
-#container p:first-of-type {
-    padding-top: 40px;
+#container p:last-of-type {
+    padding-bottom: 0;
+}
+
+/*login and registration forms*/
+#container form {
+    display: block;
+    width: 400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+#container form p, #container form p:first-of-type {
+    margin: 0 0 10px;
+    padding: 0;
+}
+#container form ul li {
+    list-style: none;
+    text-align: center;
+    color: rgb(255,0,0);
+    margin: 0 0 2px 0;
+}
+#container form p label {
+    display: block;
+    float: left;
+    width: 190px;
+    height: 32px;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 32px;
+}
+#container form p input {
+    margin: 0 auto;
+    padding: 0 10px;
+    border: 1px solid rgb(222,222,222);
+    width: 178px;
+    height: 28px;
+    line-height: 100%;
+    font-size: 20px;
+}
+#container form input[type='submit'] {
+    width: 400px;
+    height: 45px;
+    margin: 0;
+    font-size: 16px;
+}
+#container form p#reset_password {
+    font-size: 13px;
+    display: block;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+#container form p#reset_password a {
+    color: rgb(166,166,166);
+    text-decoration: none;
+}
+
+
+
+/*FOOTER*/
+#footer {
+    height: 128px;
+    width: 100%;
+    background-color:
+    rgb(244,244,244);
+    -webkit-box-shadow: 0 -1px 3px 0 rgba(222,222,222,1);
+    -moz-box-shadow: 0 -1px 3px 0 rgba(222,222,222,1);
+    box-shadow: 0 -1px 3px 0 rgba(222,222,222,1);
+}
+#footer #footer_content {
+    width: 960px;
+    margin: 0 auto;
 }
