@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from fitgoals.admin import WorkoutLog, user_admin_site
 
 """
 
@@ -20,7 +21,12 @@ def workouts_view(request):
     """
     This provides the site's workouts view
     """
-    return render(request, 'workouts_view.html')
+    #return render(request, 'workouts_view.html')
+    workoutlog_admin = user_admin_site.get_model_admin(WorkoutLog)   
+    if workoutlog_admin is None:
+        return render(request, 'workouts_view.html')
+    else:
+        return workoutlog_admin.changelist_view(request)
 
 def events_view(request):
     """

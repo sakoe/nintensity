@@ -70,6 +70,12 @@ class UserAdmin(AdminSite):
     index_template = 'admin/fitgoals/index.html'
     app_index_template = 'admin/fitgoals/app_index.html'
 
+    def get_model_admin(self, model):
+        """
+        find registered model or return none
+        """
+        return self._registry.get(model)
+
     def has_permission(self, request):
         """
         Removed check for is_staff.
@@ -80,9 +86,9 @@ class UserAdmin(AdminSite):
         """
         Customize admin index page
         """
-	if extra_context is None:
-	    extra_context = {}
-	extra_context['title'] = 'My Fitgoals'
+        if extra_context is None:
+            extra_context = {}
+        extra_context['title'] = 'My Fitgoals'
         return (
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
@@ -117,6 +123,17 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         'created_date',
     )
     readonly_fields = ['created_date']
+    # unexpected if uncomment this line, it is forced to login
+    #change_list_template = 'admin/fitgoals/login.html'
+
+    def changelist_view(self, request, extra_context=None):
+        return (
+            super(
+                WorkoutLogAdmin,
+                self).changelist_view(
+                request,
+                extra_context=extra_context)
+        )
 
     def queryset(self, request):
         qs = super(WorkoutLogAdmin, self).queryset(request)
