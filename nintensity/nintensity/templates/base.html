@@ -13,9 +13,9 @@
         <ul id="control-bar">
         {% if user.is_authenticated %}
             <li id='auth'><a {% if active == 'Login' %}id="active" {% endif %}href="{% url 'logout' %}">Logout</a></li>
+            <li id='four'><a {% if active == 'Leaderboards' %}id="active" {% endif %}href="{% url 'leaderboards_view' %}">Leaderboards</a></li>
             <li id='four'><a {% if active == 'Events' %}id="active" {% endif %}href="{% url 'events_view' %}">Events</a></li>
-            <li id='three'><a {% if active == 'Teams' %}id="active" {% endif %}href="{% url 'teams_view' %}">Teams</a></li>
-            <li id='two'><a {% if active == 'Users' %}id="active" {% endif %}href="{% url 'users_view' %}">Users</a></li>
+            <li id='four'><a {% if active == 'Workouts' %}id="active" {% endif %}href="{% url 'workouts_view' %}">Workouts</a></li>
             <li id='one'><a {% if active == 'Root' %}id="active" {% endif %}href="{% url 'root_view' %}">Self</a></li>
         {% else %}
             <li id='auth'><a {% if active == 'Login' %}id="active" {% endif %}href="{% url 'login' %}">Login</a></li>

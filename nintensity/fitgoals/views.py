@@ -6,24 +6,17 @@ from django.shortcuts import render
 
 def root_view(request):
     """
-    This provides the site's root view
+    This provides the site's root/profile view
     """
     context = {'active': 'Root'}
     return render(request, 'root_view.html', context)
 
-def users_view(request):
+def workouts_view(request):
     """
-    This provides the site's users view
+    This provides the site's workouts view
     """
-    context = {'active': 'Users'}
-    return render(request, 'users_view.html', context)
-
-def teams_view(request):
-    """
-    This provides the site's teams view
-    """
-    context = {'active': 'Teams'}
-    return render(request, 'teams_view.html', context)
+    context = {'active': 'Workouts'}
+    return render(request, 'workouts_view.html', context)
 
 def events_view(request):
     """
@@ -31,3 +24,10 @@ def events_view(request):
     """
     context = {'active': 'Events'}
     return render(request, 'events_view.html', context)
+
+def leaderboards_view(request):
+    """
+    This provides the site's leaderboardss view
+    """
+    context = {'active': 'Leaderboards'}
+    return render(request, 'leaderboards_view.html', context)
