@@ -6,28 +6,30 @@ from django.shortcuts import render
 
 def root_view(request):
     """
-    This provides the site's root/profile view
+    This provides the site's root view
     """
-    context = {'active': 'Root'}
-    return render(request, 'root_view.html', context)
+    return render(request, 'root_view.html')
+
+def profile_view(request):
+    """
+    This provides the site's profile view
+    """
+    return render(request, 'profile_view.html')
 
 def workouts_view(request):
     """
     This provides the site's workouts view
     """
-    context = {'active': 'Workouts'}
-    return render(request, 'workouts_view.html', context)
+    return render(request, 'workouts_view.html')
 
 def events_view(request):
     """
     This provides the site's events view
     """
-    context = {'active': 'Events'}
-    return render(request, 'events_view.html', context)
+    return render(request, 'events_view.html')
 
 def leaderboards_view(request):
     """
     This provides the site's leaderboardss view
     """
-    context = {'active': 'Leaderboards'}
-    return render(request, 'leaderboards_view.html', context)
+    return render(request, 'leaderboards_view.html')
