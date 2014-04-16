@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% if user.is_authenticated %}
-        <p>USERS DISPLAY HERE WHEN LOGGED IN</p>
+        <p>LEADERBOARDS DISPLAY HERE WHEN LOGGED IN</p>
     {% else %}
         <p>To see more of fitgoals, please <a href="{% url 'registration_register' %}">register</a>
         and/or <a href="{% url 'login' %}">login</a></p>
