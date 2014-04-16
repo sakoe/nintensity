@@ -40,10 +40,10 @@ html {
     text-align: center;
 }
 #header ul li#auth {}
-#header ul li#four {}
-#header ul li#three {}
-#header ul li#two {}
-#header ul li#one {}
+#header ul li#register {}
+#header ul li#fitgoals {
+    float: left;
+}
 #header ul li a {
     display: block;
     width: 100%;
