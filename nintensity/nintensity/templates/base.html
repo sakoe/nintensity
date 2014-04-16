@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>FitGoals{% if active != 'Root' %} | {{ active }}{% endif %}</title>
+    <title>FitGoals</title>
     <link type="text/css" rel="stylesheet" href="/static/django_fitgoals.css">
 </head>
 
@@ -12,15 +12,16 @@
     <div id="header">
         <ul id="control-bar">
         {% if user.is_authenticated %}
-            <li id='auth'><a {% if active == 'Login' %}id="active" {% endif %}href="{% url 'logout' %}">Logout</a></li>
-            <li id='four'><a {% if active == 'Leaderboards' %}id="active" {% endif %}href="{% url 'leaderboards_view' %}">Leaderboards</a></li>
-            <li id='four'><a {% if active == 'Events' %}id="active" {% endif %}href="{% url 'events_view' %}">Events</a></li>
-            <li id='four'><a {% if active == 'Workouts' %}id="active" {% endif %}href="{% url 'workouts_view' %}">Workouts</a></li>
-            <li id='one'><a {% if active == 'Root' %}id="active" {% endif %}href="{% url 'root_view' %}">Self</a></li>
+            <li id='auth'><a href="{% url 'logout' %}">Logout</a></li>
+            <li id='five'><a href="{% url 'leaderboards_view' %}">Leaderboards</a></li>
+            <li id='four'><a href="{% url 'events_view' %}">Events</a></li>
+            <li id='three'><a href="{% url 'workouts_view' %}">Workouts</a></li>
+            <li id='two'><a href="{% url 'profile_view' %}">Profile</a></li>
+            <li id='one'><a href="{% url 'root_view' %}">FitGoals</a></li>
         {% else %}
-            <li id='auth'><a {% if active == 'Login' %}id="active" {% endif %}href="{% url 'login' %}">Login</a></li>
-            <li id='four'><a {% if active == 'Register' %}id="active" {% endif %}href="{% url 'registration_register' %}">Register</a></li>
-            <li id='three'><a {% if active == 'Root' %}id="active" {% endif %}href="{% url 'root_view' %}">FitGoals</a></li>
+            <li id='auth'><a href="{% url 'login' %}">Login</a></li>
+            <li id='five'><a href="{% url 'registration_register' %}">Register</a></li>
+            <li id='four'><a href="{% url 'root_view' %}">FitGoals</a></li>
         {% endif %}
         </ul>
     </div>

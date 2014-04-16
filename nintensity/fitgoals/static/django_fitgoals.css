@@ -27,12 +27,14 @@ html {
     box-shadow: 0 1px 3px 0 rgba(222,222,222,1);
 }
 #header ul {
+    width: 960px;
     height: 64px;
+    margin: 0 auto;
 }
 #header ul li {
     display: block;
     float: right;
-    width: 64px;
+    width: 16.666667%;
     line-height: 64px;
     font-size: 14px;
     text-align: center;
@@ -55,12 +57,9 @@ html {
 #header ul li a:active {
     background-color: rgb(222,222,222);
 }
-#header ul li a#active, #header ul li a#active:hover {
-    background-color: rgb(222,222,222);
-    color: rgb(0,0,0);
-}
 
 /*CONTENT*/
 #container {
-    margin-top: 64px;
+    margin: 64px auto 0;
+    width: 960px;
 }
