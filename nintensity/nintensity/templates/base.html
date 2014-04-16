@@ -13,15 +13,15 @@
         <ul id="control-bar">
         {% if user.is_authenticated %}
             <li id='auth'><a href="{% url 'logout' %}">Logout</a></li>
-            <li id='five'><a href="{% url 'leaderboards_view' %}">Leaderboards</a></li>
-            <li id='four'><a href="{% url 'events_view' %}">Events</a></li>
-            <li id='three'><a href="{% url 'workouts_view' %}">Workouts</a></li>
-            <li id='two'><a href="{% url 'profile_view' %}">Profile</a></li>
-            <li id='one'><a href="{% url 'root_view' %}">FitGoals</a></li>
+            <li><a href="{% url 'leaderboards_view' %}">Leaderboards</a></li>
+            <li><a href="{% url 'events_view' %}">Events</a></li>
+            <li><a href="{% url 'workouts_view' %}">Workouts</a></li>
+            <li><a href="{% url 'profile_view' %}">Profile</a></li>
+            <li id='fitgoals'><a href="{% url 'root_view' %}">FitGoals</a></li>
         {% else %}
             <li id='auth'><a href="{% url 'login' %}">Login</a></li>
-            <li id='five'><a href="{% url 'registration_register' %}">Register</a></li>
-            <li id='four'><a href="{% url 'root_view' %}">FitGoals</a></li>
+            <li id='register'><a href="{% url 'registration_register' %}">Register</a></li>
+            <li id='fitgoals'><a href="{% url 'root_view' %}">FitGoals</a></li>
         {% endif %}
         </ul>
     </div>
