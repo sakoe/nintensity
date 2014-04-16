@@ -36,7 +36,7 @@ html {
     float: right;
     width: 16.666667%;
     line-height: 64px;
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
 }
 #header ul li#auth {}
@@ -62,4 +62,16 @@ html {
 #container {
     margin: 64px auto 0;
     width: 960px;
+}
+#container form {
+    
+}
+#container p {
+    padding: 0 40px 22px;
+    font-size: 22px;
+    line-height: 30px;
+    text-align: justify;
+}
+#container p:first-of-type {
+    padding-top: 40px;
 }
