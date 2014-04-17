@@ -113,14 +113,12 @@ class WorkoutLogAdmin(admin.ModelAdmin):
     """
 
     list_display = (
-        'user',
         'workout_name',
         'workout_type',
         'workout_duration_hours',
         'workout_duration_minutes',
         'workout_distance_miles',
         'workout_date',
-        'created_date',
     )
     readonly_fields = ['created_date']
     # unexpected if uncomment this line, it is forced to login
