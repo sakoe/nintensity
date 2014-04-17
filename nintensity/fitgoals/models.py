@@ -7,8 +7,8 @@ from django.core.validators import MaxValueValidator
 from registration.signals import user_activated
 
 
-
 class WorkoutType(models.Model):
+
     """
     Model to use in the admin cotrol panel to add new workout types.
     """
@@ -18,19 +18,20 @@ class WorkoutType(models.Model):
     def __unicode__(self):
         return self.workout_type
 
+
 class WorkoutLog(models.Model):
+
     """
     Model for workout log
     """
-    workout_name = models.CharField(max_length=128)
-    workout_duration_hours = models.IntegerField()
-    workout_duration_minutes = models.IntegerField()
-    workout_distance_miles = models.IntegerField()
+    workout_name = models.CharField("Activity", max_length=128)
+    workout_duration_hours = models.IntegerField("Hours")
+    workout_duration_minutes = models.IntegerField("Mins")
+    workout_distance_miles = models.IntegerField("Miles")
     user = models.ForeignKey(User)
-    created_date = models.DateTimeField(auto_now_add=True)
-    workout_date = models.DateTimeField(blank=True, null=True)
-    workout_type = models.ForeignKey('WorkoutType')
-
+    created_date = models.DateTimeField("Entered on", auto_now_add=True)
+    workout_date = models.DateTimeField("Workout on", blank=True, null=True)
+    workout_type = models.ForeignKey('WorkoutType', verbose_name="Type")
 
     def __unicode__(self):
         return self.workout_name
@@ -47,18 +48,21 @@ class Event(models.Model):
     event_location = models.CharField(max_length=128)
     event_url = models.URLField(max_length=200)
 
+
 class Team(Group):
+
     """
     Model for workout log
     """
     team_name = models.CharField(max_length=128)
+
     def __unicode__(self):
         return u'%s' % (self.team_name)
+
 
 class EventTeam(models.Model):
     event_for_this_team = models.ForeignKey('Event')
     team_for_this_event = models.ForeignKey('Team')
-
 
 
 def user_activated_callback(sender, user, request, **kwargs):
