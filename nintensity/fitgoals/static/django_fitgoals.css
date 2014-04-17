@@ -160,16 +160,23 @@ body {
     width: 960px;
     padding: 0;
     font-size: 16px;
+    text-align: left;
 }
 #container div#content-main form div.actions {
     padding: 5px;
+    margin-bottom: 22px;
 }
 #container div#content-main form table {
+    border-top: 1px solid rgb(0,0,0);
     color: rgb(0,0,0);
     border-spacing: 0 0;
 }
+#container div#content-main form table th,
 #container div#content-main form table td {
     padding: 5px;
+}
+#container div#content-main form table th .sortpriority {
+    color: rgb(255,0,0);
 }
 #container div#content-main form table thead tr {
     background-color: rgb(255,255,255);
@@ -179,9 +186,6 @@ body {
 }
 #container div#content-main form table tbody tr:nth-of-type(even) {
     background-color: rgb(244,244,244);
-}
-#container div#content-main form table thead th {
-    padding: 5px;
 }
 #container div#content-main form p {
     font-size: 12px;
