@@ -30,8 +30,11 @@ class WorkoutLog(models.Model):
     workout_distance_miles = models.IntegerField("Miles")
     user = models.ForeignKey(User)
     created_date = models.DateTimeField("Entered on", auto_now_add=True)
-    workout_date = models.DateTimeField("Workout on", blank=True, null=True)
+    workout_date = models.DateTimeField("Workout Date", blank=True, null=True)
     workout_type = models.ForeignKey('WorkoutType', verbose_name="Type")
+
+    class Meta:
+        verbose_name = 'Workout'
 
     def __unicode__(self):
         return self.workout_name
