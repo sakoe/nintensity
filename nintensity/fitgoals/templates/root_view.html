@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if user.is_authenticated %}
-        {% if user.is_authenticated and user.is_staff %}
+    {% if user.is_authenticated and user.is_staff %}
         <p>(ADMIN) ROOT VIEW DISPLAYS HERE WHEN LOGGED IN</p>
         <p><a href="{% url 'admin:index' %}">Django administration</a></p>
-        {% elif user.is_authenticated and not user.is_staff %}
-        <p>(USER) ROOT VIEW DISPLAYS HERE WHEN LOGGED IN</p>
-        <p><a href="{% url 'user:index' %}">Workout Log</a></p>
-        {% endif %}
     {% else %}
         <p>If you're like most people, the hardest part of staying fit is maintaining the motivation to exercise regularly. Working out is hard, and it requires a lot more willpower than indulging in another snack. For any number of reasons, you find yourself making excuses for not getting the exercise your body needs. It happens to all of us.</p>
         <p>That's why we brought you FitGoals.</p>
