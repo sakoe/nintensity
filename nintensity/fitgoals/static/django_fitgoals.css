@@ -14,7 +14,7 @@ nav, section {display: block;} html {-webkit-text-size-adjust: 100%;}
 /*GENERAL*/
 html {
     font-family: sans-serif;
-    background-color: rgb(222,222,222);
+    background-color: rgb(244,244,244);
 }
 body {
     background-color: rgb(255,255,255);
@@ -73,11 +73,10 @@ body {
     margin: 64px auto 0;
     padding: 40px 0;
     width: 960px;
-    min-height: 768px;
 }
 #container p {
     padding: 0 40px 22px;
-    font-size: 22px;
+    font-size: 16px;
     line-height: 30px;
     text-align: justify;
 }
@@ -89,8 +88,9 @@ body {
 #container form {
     display: block;
     width: 400px;
-    margin: 0;
-    padding: 0 40px;
+    margin: 0 auto;
+    padding: 40px;
+    border: 1px solid rgb(222,222,222);
 }
 #container form p, #container form p:first-of-type {
     margin: 0 0 10px;
@@ -118,7 +118,7 @@ body {
     width: 178px;
     height: 28px;
     line-height: 100%;
-    font-size: 20px;
+    font-size: 16px;
 }
 #container form input[type='submit'] {
     width: 400px;
@@ -194,26 +194,45 @@ body {
     display: none;
 }
 
-/*workoutlog_form form*/
-#container div#content-main form#workoutlog_form div.submit-row {
-    width: 320px;
+/*workoutlog_form and workouttype_form*/
+#container div#content-main form#workoutlog_form,
+#container div#content-main form#workouttype_form {
+    font-size: 16px;
 }
-#container div#content-main form#workoutlog_form div.submit-row input {
+
+#container div#content-main form#workoutlog_form div.submit-row,
+#container div#content-main form#workouttype_form div.submit-row {
+   margin-bottom: 0;
+}
+#container div#content-main form#workoutlog_form div.submit-row input,
+#container div#content-main form#workouttype_form div.submit-row input {
     display: block;
     float: left;
-    width: 320px;
-    clear: both;
+    font-size: 16px;
+    width: 33.333333%;
 }
+#container div#content-main form#workoutlog_form ul.errorlist,
+#container div#content-main form#workouttype_form ul.errorlist {
+   margin: 0 0 0 107px;
+   padding: 0;
+}
+#container div#content-main form#workoutlog_form ul.errorlist li,
+#container div#content-main form#workouttype_form ul.errorlist li {
+    text-align: left;
+}
+
+
 
 /*FOOTER*/
 #footer {
     height: 128px;
     width: 100%;
-    background-color: rgb(222,222,222);
+    background-color: rgb(244,244,244);
 }
 #footer #footer_content {
     width: 960px;
     margin: 0 auto;
+    text-align: center;
 }
 
 
