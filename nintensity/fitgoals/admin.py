@@ -152,6 +152,10 @@ class WorkoutLogAdmin(admin.ModelAdmin):
                 **kwargs)
         )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(WorkoutLogAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['user'].initial = request.user
+        return form
 
 class EventAdmin(admin.ModelAdmin):
 
