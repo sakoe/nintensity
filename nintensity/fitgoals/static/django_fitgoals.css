@@ -167,6 +167,7 @@ body {
     margin-bottom: 22px;
 }
 #container div#content-main form table {
+    width: 960px;
     border-top: 1px solid rgb(0,0,0);
     color: rgb(0,0,0);
     border-spacing: 0 0;
