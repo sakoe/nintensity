@@ -98,9 +98,9 @@ body {
 }
 #container form ul li {
     list-style: none;
-    text-align: center;
+    text-align: left;
     color: rgb(255,0,0);
-    margin: 0 0 2px 0;
+    margin: 0 0 2px 200px;
 }
 #container form p label {
     display: block;
