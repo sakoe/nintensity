@@ -157,6 +157,22 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         form.base_fields['user'].initial = request.user
         return form
 
+    def get_action_choices(self, request, default_choices=[]):
+        """
+        Return a list of choices for use in a form object.  Each choice is a
+        tuple (name, description).
+
+        Reset the default_choices to empty list instead of BLANK_CHOICE_DASH
+        """
+        return (
+            super(
+                WorkoutLogAdmin,
+                self).get_action_choices(
+                request,
+                default_choices=default_choices)
+        )
+
+
 class EventAdmin(admin.ModelAdmin):
 
     """
