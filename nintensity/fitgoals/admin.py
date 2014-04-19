@@ -105,6 +105,12 @@ class WorkoutTypeAdmin(admin.ModelAdmin):
         'has_distance_component',
     )
 
+from django.contrib.admin.widgets import AdminTimeWidget
+
+class DurationTimeForm(forms.ModelForm):
+    workout_duration = forms.TimeField(widget=AdminTimeWidget(format='%H:%M'))
+    class Meta:
+        model = WorkoutLog
 
 class WorkoutLogAdmin(admin.ModelAdmin):
 
@@ -112,11 +118,11 @@ class WorkoutLogAdmin(admin.ModelAdmin):
     Customize workout log admin page
     """
 
+    form = DurationTimeForm
     list_display = (
         'workout_name',
         'workout_type',
-        'workout_duration_hours',
-        'workout_duration_minutes',
+        'workout_duration',
         'workout_distance_miles',
         'workout_date',
     )
