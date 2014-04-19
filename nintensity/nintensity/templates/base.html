@@ -28,9 +28,11 @@
         </ul>
     </div>
     <div id="container">
-        <div id="content">
+        <div id="content" class="{% block coltype %}colM{% endblock %}">
         {% block content %}
+        {{ content }}
         {% endblock %}
+        <br class="clear" />
         </div>
     </div>
     <div id="footer">
