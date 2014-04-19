@@ -25,8 +25,7 @@ class WorkoutLog(models.Model):
     Model for workout log
     """
     workout_name = models.CharField("Activity", max_length=128)
-    workout_duration_hours = models.IntegerField("Hours")
-    workout_duration_minutes = models.IntegerField("Mins")
+    workout_duration = models.TimeField("Duration", blank=True)
     workout_distance_miles = models.IntegerField("Miles")
     user = models.ForeignKey(User)
     created_date = models.DateTimeField("Entered on", auto_now_add=True)
