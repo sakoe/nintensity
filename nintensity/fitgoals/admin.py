@@ -57,6 +57,26 @@ class UserAdminAuthenticationForm(AuthenticationForm):
         return self.cleaned_data
 
 
+class FitGoalsModelAdmin(admin.ModelAdmin):
+    """
+
+    """
+
+    def get_action_choices(self, request, default_choices=[]):
+        """
+        Return a list of choices for use in a form object.  Each choice is a
+        tuple (name, description).
+
+        Reset the default_choices to empty list instead of BLANK_CHOICE_DASH
+        """
+        return (
+            super(
+                FitGoalsModelAdmin,
+                self).get_action_choices(
+                request,
+                default_choices=default_choices)
+        )
+
 class UserAdmin(AdminSite):
 
     """
@@ -93,8 +113,7 @@ class UserAdmin(AdminSite):
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
 
-
-class WorkoutTypeAdmin(admin.ModelAdmin):
+class WorkoutTypeAdmin(FitGoalsModelAdmin):
 
     """
     Customize workout type admin page.
@@ -112,7 +131,7 @@ class DurationTimeForm(forms.ModelForm):
     class Meta:
         model = WorkoutLog
 
-class WorkoutLogAdmin(admin.ModelAdmin):
+class WorkoutLogAdmin(FitGoalsModelAdmin):
 
     """
     Customize workout log admin page
@@ -162,22 +181,6 @@ class WorkoutLogAdmin(admin.ModelAdmin):
         form = super(WorkoutLogAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['user'].initial = request.user
         return form
-
-    def get_action_choices(self, request, default_choices=[]):
-        """
-        Return a list of choices for use in a form object.  Each choice is a
-        tuple (name, description).
-
-        Reset the default_choices to empty list instead of BLANK_CHOICE_DASH
-        """
-        return (
-            super(
-                WorkoutLogAdmin,
-                self).get_action_choices(
-                request,
-                default_choices=default_choices)
-        )
-
 
 class EventAdmin(admin.ModelAdmin):
 
