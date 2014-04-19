@@ -190,8 +190,51 @@ body {
     background-color: rgb(244,244,244);
 }
 #container div#content-main form p {
+    margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    font-weight: normal;
     font-size: 12px;
-    display: none;
+    /*display: none;*/
+}
+
+/* MODULES */
+
+.module {
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.module blockquote {
+    margin-left: 12px;
+}
+
+.module ul, .module ol {
+    margin-left: 1.5em;
+}
+
+.module h3 {
+    margin-top: .6em;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 2px 5px 3px 5px;
+    font-size: 11px;
+    text-align: left;
+    font-weight: bold;
+    background: #7CA0C7 url(../img/default-bg.gif) top left repeat-x;
+    color: white;
+}
+
+.module table {
+    border-collapse: collapse;
 }
 
 /*workoutlog_form and workouttype_form*/
