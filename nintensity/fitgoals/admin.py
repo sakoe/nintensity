@@ -127,7 +127,12 @@ class WorkoutTypeAdmin(FitGoalsModelAdmin):
 from django.contrib.admin.widgets import AdminTimeWidget
 
 class DurationTimeForm(forms.ModelForm):
-    workout_duration = forms.TimeField(widget=AdminTimeWidget(format='%H:%M'))
+    """
+    Customize input form for workout duration field
+    set 'class' in attrs of AdminTimeWidget to None to remove time shortcut
+    """
+    workout_duration = forms.TimeField(widget=AdminTimeWidget(format='%H:%M', attrs={'class': 'None'}),
+                                       help_text='Please use the following format: <em>hh:mm</em>.')
     class Meta:
         model = WorkoutLog
 
@@ -141,7 +146,7 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
     list_display = (
         'workout_name',
         'workout_type',
-        'workout_duration',
+        'format_duration',
         'workout_distance_miles',
         'workout_date',
     )
@@ -181,6 +186,15 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         form = super(WorkoutLogAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['user'].initial = request.user
         return form
+
+    def format_duration(self, obj):
+        """
+        Set the workout_duration to display without a.m.
+        It uses the fact that workout_duration is a Python date.time object
+        Since we changed from workout_duration, the short_descrption needs update
+        """
+        return obj.workout_duration.strftime('%H:%M')
+    format_duration.short_description = 'Duration'
 
 class EventAdmin(admin.ModelAdmin):
 
