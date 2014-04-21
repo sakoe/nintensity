@@ -11,6 +11,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.db.models import Sum
 
 from fitgoals.models import WorkoutLog, WorkoutType, Event
 
@@ -150,17 +151,26 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         'workout_date',
     )
     readonly_fields = ['created_date']
-    # unexpected if uncomment this line, it is forced to login
-    #change_list_template = 'admin/fitgoals/login.html'
+    change_list_template = 'admin/fitgoals/workoutlog_list.html'
 
     def changelist_view(self, request, extra_context=None):
+        workoutlog_extra = {'total': self.get_total_workout(request)}
         return (
             super(
                 WorkoutLogAdmin,
                 self).changelist_view(
                 request,
-                extra_context=extra_context)
+                extra_context=workoutlog_extra)
         )
+
+    def get_total_workout(self, request):
+        total_time = WorkoutLog.objects.filter(user=request.user).aggregate(tot = Sum('workout_duration'))['tot']
+        total_seconds = 0
+        if total_time is not None:
+            total_seconds = total_time.total_seconds()
+        hours = divmod(total_seconds, 3600)
+        mins = divmod(hours[1],60)[0]
+        return {'Hours':hours[0], 'Minutes':mins}
 
     def queryset(self, request):
         qs = super(WorkoutLogAdmin, self).queryset(request)
