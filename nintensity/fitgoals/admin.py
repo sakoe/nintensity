@@ -147,7 +147,6 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         'workout_name',
         'workout_type',
         'format_duration',
-        'workout_distance_miles',
         'workout_date',
     )
     readonly_fields = ['created_date']
