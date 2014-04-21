@@ -55,7 +55,7 @@
             <li>
               {% url cl.opts|admin_urlname:'add' as add_url %}
               <a href="{% add_preserved_filters add_url is_popup %}" class="addlink">
-                {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+                {% blocktrans with cl.opts.verbose_name as name %}Log New {{ name }}{% endblocktrans %}
               </a>
             </li>
           {% endblock %}
@@ -95,4 +95,12 @@
       </form>
     </div>
   </div>
+
+<h3>Total workout time:</h3>
+<ul>
+{% for key, value in total.items %}
+ <li> {{key}} - {{value}} </li>
+{% endfor %}
+</ul>
+
 {% endblock %}
