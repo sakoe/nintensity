@@ -13,11 +13,12 @@ Contents:
 
    proposal
 
+   implementation
+
    api
 
    devtips
 
-   brainstorming-models
 
 Indices and tables
 ==================
