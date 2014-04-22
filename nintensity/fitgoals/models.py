@@ -23,6 +23,10 @@ class WorkoutLog(models.Model):
 
     """
     Model for workout log
+    Activity is given as shortname for Workout Name
+    Duration is given as shortname for Workout Duration
+    Miles is given as shortname for Workout Distance Miles
+    Type is given as shortname for Workout Type
     """
     workout_name = models.CharField("Activity", max_length=128)
     workout_duration = models.TimeField("Duration", blank=True)
@@ -54,7 +58,7 @@ class Event(models.Model):
 class Team(Group):
 
     """
-    Model for workout log
+    Model for Team
     """
     team_name = models.CharField(max_length=128)
 
@@ -70,7 +74,9 @@ class EventTeam(models.Model):
 def user_activated_callback(sender, user, request, **kwargs):
     """
     Callback function when activation is complete
-    You can update user's permission
+    You can update user's permission here.
+    Currently, only add/change/delete permission on workoutlog is
+    set after activation complete.
     """
     profile = WorkoutLog(user=user)
     team, created = Team.objects.get_or_create(name='Soccer')

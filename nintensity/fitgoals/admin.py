@@ -20,7 +20,8 @@ class UserAdminAuthenticationForm(AuthenticationForm):
 
     """
     Same as Django's AdminAuthenticationForm but allows to login
-    any user who is not staff.
+    any user who is not staff. The main modifications is to
+    remove check for staff in clean() function
     """
     this_is_the_login_form = forms.BooleanField(widget=forms.HiddenInput,
                                                 initial=1,
@@ -29,6 +30,9 @@ class UserAdminAuthenticationForm(AuthenticationForm):
                                                     " expired.")})
 
     def clean(self):
+        """
+        Replace check for staff with active only
+        """
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         message = ERROR_MESSAGE
@@ -59,8 +63,9 @@ class UserAdminAuthenticationForm(AuthenticationForm):
 
 
 class FitGoalsModelAdmin(admin.ModelAdmin):
-    """
 
+    """
+    Simple extention to ModelAdmin to jave different default actions.
     """
 
     def get_action_choices(self, request, default_choices=[]):
@@ -78,10 +83,13 @@ class FitGoalsModelAdmin(admin.ModelAdmin):
                 default_choices=default_choices)
         )
 
+
 class UserAdmin(AdminSite):
 
     """
     Subclass from Django AdminSite
+    It uses new login, index and app_index templates that are
+    customized for fitgoals.
     Overload has_permission function to allow non-staff user to login
     Overload index function to customize index page
     """
@@ -99,13 +107,14 @@ class UserAdmin(AdminSite):
 
     def has_permission(self, request):
         """
-        Removed check for is_staff.
+        Removed check for is_staff. It return true for activated user.
         """
         return request.user.is_active
 
     def index(self, request, extra_context=None):
         """
         Customize admin index page
+        Set the title to "My Fitgoals"
         """
         if extra_context is None:
             extra_context = {}
@@ -113,6 +122,7 @@ class UserAdmin(AdminSite):
         return (
             super(UserAdmin, self).index(request, extra_context=extra_context)
         )
+
 
 class WorkoutTypeAdmin(FitGoalsModelAdmin):
 
@@ -127,20 +137,26 @@ class WorkoutTypeAdmin(FitGoalsModelAdmin):
 
 from django.contrib.admin.widgets import AdminTimeWidget
 
+
 class DurationTimeForm(forms.ModelForm):
+
     """
     Customize input form for workout duration field
     set 'class' in attrs of AdminTimeWidget to None to remove time shortcut
     """
-    workout_duration = forms.TimeField(widget=AdminTimeWidget(format='%H:%M', attrs={'class': 'None'}),
-                                       help_text='Please use the following format: <em>hh:mm</em>.')
+    workout_duration = forms.TimeField(
+        widget=AdminTimeWidget(format='%H:%M', attrs={'class': 'None'}),
+        help_text='Please use the following format: <em>hh:mm</em>.')
+
     class Meta:
         model = WorkoutLog
+
 
 class WorkoutLogAdmin(FitGoalsModelAdmin):
 
     """
     Customize workout log admin page
+    It uses its own template to display total workout hours
     """
 
     form = DurationTimeForm
@@ -154,6 +170,10 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
     change_list_template = 'admin/fitgoals/workoutlog_list.html'
 
     def changelist_view(self, request, extra_context=None):
+        """
+        Overload the super ModelAdmin class for changelist_view
+        It provides extra for display total workout hours and mins.
+        """
         workoutlog_extra = {'total': self.get_total_workout(request)}
         return (
             super(
@@ -164,21 +184,34 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         )
 
     def get_total_workout(self, request):
-        total_time = WorkoutLog.objects.filter(user=request.user).aggregate(tot = Sum('workout_duration'))['tot']
+        """
+        New function added to compute total hours and mins for the logined
+        user. It returns a dictionary with Hours and Minutes as keys.
+        """
+        total_time = WorkoutLog.objects.filter(
+            user=request.user).aggregate(tot=Sum('workout_duration'))['tot']
         total_seconds = 0
         if total_time is not None:
             total_seconds = total_time.total_seconds()
         hours = divmod(total_seconds, 3600)
-        mins = divmod(hours[1],60)[0]
-        return {'Hours':hours[0], 'Minutes':mins}
+        mins = divmod(hours[1], 60)[0]
+        return {'Hours': hours[0], 'Minutes': mins}
 
     def queryset(self, request):
+        """
+        Overload the super class function to limit the display set to
+        logined user only.
+        """
         qs = super(WorkoutLogAdmin, self).queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(user=request.user)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        Overload the super class function to limit the display set to
+        logined user only.
+        """
         if db_field.name == 'user':
             kwargs['queryset'] = User.objects.filter(
                 username=request.user.username)
@@ -192,6 +225,10 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         )
 
     def get_form(self, request, obj=None, **kwargs):
+        """
+        Overload the parent class and set the inital value
+        for user selections to logined user.
+        """
         form = super(WorkoutLogAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['user'].initial = request.user
         return form
@@ -204,6 +241,7 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
         """
         return obj.workout_duration.strftime('%H:%M')
     format_duration.short_description = 'Duration'
+
 
 class EventAdmin(admin.ModelAdmin):
 
