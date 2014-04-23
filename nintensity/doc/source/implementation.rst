@@ -43,7 +43,7 @@ WorkoutLog Table
 +-----------------+--------------------+------------------------+------+--------------+--------------+--------------+
 |  workout_name   | workout_duration   | workout_distance_miles | user | created_data | workout_date | workout_type |
 +=================+====================+========================+======+==============+==============+==============+
-| CharField       | TimeField          | FloatField             | User | DateTimeField| DateTimeField| WorkoutType  |
+| CharField       | TimeField          | DecimalField           | User | DateTimeField| DateTimeField| WorkoutType  |
 +-----------------+--------------------+------------------------+------+--------------+--------------+--------------+
 
 WorkoutType Table
