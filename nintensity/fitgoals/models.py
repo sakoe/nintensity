@@ -30,7 +30,7 @@ class WorkoutLog(models.Model):
     """
     workout_name = models.CharField("Activity", max_length=128)
     workout_duration = models.TimeField("Duration", blank=True)
-    workout_distance_miles = models.IntegerField("Miles")
+    workout_distance_miles = models.DecimalField("Miles", max_digits=4, decimal_places=2)
     user = models.ForeignKey(User)
     created_date = models.DateTimeField("Entered on", auto_now_add=True)
     workout_date = models.DateTimeField("Workout Date", blank=True, null=True)
