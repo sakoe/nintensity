@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('',
-    url(r'^profile/$', 'userprofile.views.user_profile'),
+urlpatterns = patterns('userprofile.views',
+    url(r'^profile/$', 
+        'user_profile',
+        name='user_profile'),
     )
