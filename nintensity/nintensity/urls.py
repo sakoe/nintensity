@@ -9,6 +9,7 @@ user_site_autodiscover(usersite=user_admin_site)
 
 urlpatterns = patterns('',
                        url(r'^', include('fitgoals.urls')),
+                       url(r'^account/', include(userprofile.urls)),
                        url(r'^accounts/',
                            include('registration.backends.default.urls')),
                        url(r'^accounts/password/reset/$', 'django.contrib.auth.views.password_reset',

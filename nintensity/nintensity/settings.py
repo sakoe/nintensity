@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'south',
     'user',
     'fitgoals',
+    'userprofile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +104,5 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'nintensity/templates'),
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
