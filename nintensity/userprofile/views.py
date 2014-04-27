@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from forms import UserProfileForm
@@ -22,7 +22,7 @@ def user_profile(request):
 
         args['form'] = form
 
-        return render_to_response('profile.html', args)
+        return render(request, 'profile.html', args)
 
 
 
