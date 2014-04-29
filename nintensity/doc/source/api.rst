@@ -18,6 +18,11 @@ fitgoals.admin
 .. automodule:: fitgoals.admin
    :members:
 
+fitgoals.tests
+===============
+.. automodule:: fitgoals.tests
+   :members:
+
 Documentation for the userprofile app
 *************************************
 .. automodule:: userprofile
@@ -31,4 +36,4 @@ userprofile.views
 userprofile.models
 ==================
 .. automodule:: userprofile.models
-   :members:
+   
