@@ -43,6 +43,6 @@ def events_view(request):
 
 def leaderboards_view(request):
     """
-    This provides the site's leaderboardss view
+    This provides the site's leaderboards view
     """
     return render(request, 'leaderboards_view.html')
