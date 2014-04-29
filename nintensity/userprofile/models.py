@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
+    """
+    Model for the user profile information.
+    """
 
     user = models.OneToOneField(User)
     screen_name = models.CharField(max_length=35, help_text='Supply a screen name if you want to go by a name other than your username.')

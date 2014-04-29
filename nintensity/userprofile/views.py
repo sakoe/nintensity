@@ -8,7 +8,8 @@ from django.contrib import messages
 @login_required
 def user_profile(request):
     """
-    Gets the user profile information if it exists, allows user to update it. 
+    Gets the user profile information if it exists and allows user to update it.
+    Creates a new profile for the logged in user if none exists. 
     Displays a flash message on successful updates. 
 
     """
