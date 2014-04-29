@@ -36,4 +36,4 @@ userprofile.views
 userprofile.models
 ==================
 .. automodule:: userprofile.models
-   
+   :members:
