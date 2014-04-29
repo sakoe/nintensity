@@ -34,6 +34,9 @@ class WorkoutTypeTestCase(TestCase):
     """
 
     def test_unicode(self):
+        """
+        Create WorkoutType and test its unicode
+        """
         expected = "Cycling"
         wt = WorkoutType(workout_type=expected)
         actual = unicode(wt)
@@ -54,6 +57,7 @@ class WorkoutLogTestCase(FitGoalsTestCase):
         Duration is 30 mins
         Save the workout
         """
+        self.logged_in = False
         super(WorkoutLogTestCase, self).setUp()
         wt = WorkoutType.objects.get(pk=3)
         wl = WorkoutLog(workout_name='Cycling Excercise', user=self.user,
@@ -67,6 +71,7 @@ class WorkoutLogTestCase(FitGoalsTestCase):
         Test Cycling Excercise is saved
         Test calculation of Total workout time for hours and minutes
         """
+        self.assertTrue(self.logged_in)
         resp = self.client.get('/workouts/')
         self.assertContains(resp, 'Cycling Excercise')
         self.assertContains(resp, 'Total workout time:')
