@@ -10,7 +10,7 @@ from registration.signals import user_activated
 class WorkoutType(models.Model):
 
     """
-    Model to use in the admin cotrol panel to add new workout types.
+    Model to use in the admin control panel to add new workout types.
     """
     workout_type = models.CharField(max_length=128)
     has_distance_component = models.BooleanField()
