@@ -16,4 +16,9 @@ fitgoals.models
 fitgoals.admin
 ===============
 .. automodule:: fitgoals.admin
-   :members: 
+   :members:
+
+fitgoals.tests
+===============
+.. automodule:: fitgoals.tests
+   :members:
