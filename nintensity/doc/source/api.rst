@@ -1,5 +1,5 @@
-Documentation for fitgoals software
-***********************************
+Documentation for the fitgoals app
+**********************************
 .. automodule:: fitgoals
    :members: 
 
@@ -16,4 +16,19 @@ fitgoals.models
 fitgoals.admin
 ===============
 .. automodule:: fitgoals.admin
-   :members: 
+   :members:
+
+Documentation for the userprofile app
+*************************************
+.. automodule:: userprofile
+   :members:
+
+userprofile.views
+=================
+.. automodule:: userprofile.views
+   :members:
+
+userprofile.models
+==================
+.. automodule:: userprofile.models
+   :members:
