@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from fitgoals.admin import WorkoutLog, user_admin_site
+from django.contrib.auth.decorators import login_required
 
 """
 
@@ -19,7 +20,7 @@ def profile_view(request):
     """
     return render(request, 'profile_view.html')
 
-
+@login_required
 def workouts_view(request):
     """
     This provides the site's workouts view
@@ -34,6 +35,7 @@ def workouts_view(request):
         return workoutlog_admin.changelist_view(request)
 
 
+@login_required
 def events_view(request):
     """
     This provides the site's events view
@@ -41,6 +43,7 @@ def events_view(request):
     return render(request, 'events_view.html')
 
 
+@login_required
 def leaderboards_view(request):
     """
     This provides the site's leaderboards view
