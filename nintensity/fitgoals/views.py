@@ -152,7 +152,7 @@ def event_details_view(request, event_year, event_pk):
     # event (if it exists) is found
     try:
         all_events = Event.objects.all()
-        specific_event = all_events.get(pk=event_pk)
+        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
     except Event.DoesNotExist:
         raise Http404
     
