@@ -5,7 +5,10 @@ from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.core.validators import MaxValueValidator
 from registration.signals import user_activated
+from django.conf import settings
 
+import logging
+logger = logging.getLogger(__name__)
 
 class WorkoutType(models.Model):
 
@@ -92,15 +95,10 @@ def user_activated_callback(sender, user, request, **kwargs):
     set after activation complete.
     """
     profile = WorkoutLog(user=user)
-    team, created = Team.objects.get_or_create(name='Soccer')
-    user.groups.add(team)
-
-    perm = Permission.objects.get(codename='add_workoutlog')
-    user.user_permissions.add(perm)
-    perm = Permission.objects.get(codename='change_workoutlog')
-    user.user_permissions.add(perm)
-    perm = Permission.objects.get(codename='delete_workoutlog')
-    user.user_permissions.add(perm)
+    group, created = Group.objects.get_or_create(name=settings.DEFAULT_GROUP_NAME)
+    user.groups.add(group)
+    if created:
+        logger.error('It should not be created here!')
     user.save()
 
 user_activated.connect(user_activated_callback)
