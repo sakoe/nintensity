@@ -13,7 +13,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import Sum
 from fitgoals.models import WorkoutLog, WorkoutType, Event
-from fitgoals.models import Team, TeamMember
+from fitgoals.models import TeamMember
+from fitgoals.models import TeamForEvent as Team
 
 class UserAdminAuthenticationForm(AuthenticationForm):
 
