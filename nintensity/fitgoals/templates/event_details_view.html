@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+            <h1><a href="../..">See All Events</a></h1>
+            <h1><a href="..">See Events in {{ event.event_date.year }}</a></h1>
+            <div id="specific_event">
+                <div id="event_details">
+                    {% if include_url == True %}
+                    <h1>{{ event.event_name }} (<a href="{{ event.event_url }}" target="_blank">website</a>)</h1>
+                    {% else %}
+                    <h1>{{ event.event_name }}</h1>
+                    {% endif %}
+                    <ul>
+                        <li>When: {{ event.event_date }}</li>
+                        <li>Where: {{ event.event_location }}</li>
+                        <li>What: {{ event.event_description }}</li>
+                    </ul>
+                </div>
+                <div id="event_teams">
+                    <h1>Teams For This Event</h1>
+                    {% for complete_team in all_teams_for_event %}
+                    <div class="team">
+                        <h1>{{ complete_team.0 }}
+                            {% if can_join_team == True %}
+                            <a href="join-team/">Join This Team</a>
+                            {% endif %}
+                        </h1>
+                        <ul>
+                            {% for each in complete_team.1 %}
+                            <li>{{ each }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                    <h2>
+                        {% if can_make_team == True and can_join_team == True %}
+                        <a href="make-team/">Make A New Team</a>
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+{% endblock %}

@@ -12,9 +12,8 @@ from django.utils.translation import ugettext_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import Sum
-
 from fitgoals.models import WorkoutLog, WorkoutType, Event
-
+from fitgoals.models import Team, TeamMember
 
 class UserAdminAuthenticationForm(AuthenticationForm):
 
@@ -259,6 +258,48 @@ class EventAdmin(admin.ModelAdmin):
     )
 
 
+class EventAdmin(admin.ModelAdmin):
+
+    """
+    Customize the event admin page.
+
+    """
+
+    list_display = (
+        'event_name',
+        'event_url',
+        'event_date',
+        'event_description',
+        'event_location',
+    )
+
+
+class TeamAdmin(admin.ModelAdmin):
+
+    """
+    Customize the event admin page.
+
+    """
+
+    list_display = (
+        'event',
+        'team_name',
+        'team_creator',
+    )
+
+class TeamMemberAdmin(admin.ModelAdmin):
+
+    """
+    Customize the event admin page.
+
+    """
+
+    list_display = (
+        'team',
+        'member',
+    )
+
+
 def autodiscover(usersite=site):
     """
     improved autodiscover function from django.contrib.admin
@@ -286,3 +327,7 @@ user_admin_site.register(Event, EventAdmin)
 
 # admin.site.register(WorkoutLog, WorkoutLogAdmin)
 admin.site.register(WorkoutType, WorkoutTypeAdmin)
+
+admin.site.register(Event, EventAdmin) 
+admin.site.register(Team, TeamAdmin)
+admin.site.register(TeamMember, TeamMemberAdmin)
