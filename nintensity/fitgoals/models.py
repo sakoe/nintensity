@@ -30,7 +30,10 @@ class WorkoutLog(models.Model):
     """
     workout_name = models.CharField("Activity", max_length=128)
     workout_duration = models.TimeField("Duration", blank=True)
-    workout_distance_miles = models.DecimalField("Miles", max_digits=4, decimal_places=2)
+    workout_distance_miles = models.DecimalField(
+        "Miles",
+        max_digits=4,
+        decimal_places=2)
     user = models.ForeignKey(User)
     created_date = models.DateTimeField("Entered on", auto_now_add=True)
     workout_date = models.DateTimeField("Workout Date", blank=True, null=True)
@@ -53,15 +56,23 @@ class Event(models.Model):
     event_date = models.DateTimeField()
     event_location = models.CharField(max_length=150)
     event_url = models.URLField(blank=True)
-    event_creator = models.ForeignKey(User)
+    event_creator = models.ForeignKey(User, blank=True, null=True)
 
     def __unicode__(self):
         return self.event_name
 
 
-class Team(models.Model):
+class Team(Group):
+
+    """
+    Model for Team
+    """
+    group_name = models.CharField(max_length=128, blank=True, null=True)
+
+
+class TeamForEvent(models.Model):
     event = models.ForeignKey(Event)
-    team_name = models.CharField(max_length=100)
+    team_name = models.CharField(max_length=100, blank=True, null=True)
     team_creator = models.ForeignKey(User)
     date_created = models.DateTimeField('Date Joined', auto_now_add=True)
 
@@ -73,7 +84,7 @@ class Team(models.Model):
 
 
 class TeamMember(models.Model):
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(TeamForEvent)
     member = models.ForeignKey(User)
     date_joined = models.DateTimeField('Date Joined', auto_now_add=True)
 
