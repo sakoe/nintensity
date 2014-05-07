@@ -48,27 +48,40 @@ class WorkoutLog(models.Model):
 
 
 class Event(models.Model):
-    event_name = models.CharField(max_length=128)
-    event_description = models.TextField()
-    event_date = models.DateTimeField(auto_now=False, null=False)
-    event_location = models.CharField(max_length=128)
-    event_url = models.URLField(max_length=200)
-
-
-class Team(Group):
-
-    """
-    Model for Team
-    """
-    team_name = models.CharField(max_length=128)
+    event_name = models.CharField(max_length=100, unique=True)
+    event_description = models.TextField(blank=True)
+    event_date = models.DateTimeField()
+    event_location = models.CharField(max_length=150)
+    event_url = models.URLField(blank=True)
+    event_creator = models.ForeignKey(User)
 
     def __unicode__(self):
-        return u'%s' % (self.team_name)
+        return self.event_name
 
 
-class EventTeam(models.Model):
-    event_for_this_team = models.ForeignKey('Event')
-    team_for_this_event = models.ForeignKey('Team')
+class Team(models.Model):
+    event = models.ForeignKey(Event)
+    team_name = models.CharField(max_length=100)
+    team_creator = models.ForeignKey(User)
+    date_created = models.DateTimeField('Date Joined', auto_now_add=True)
+
+    class Meta:
+        unique_together = ('event', 'team_name')
+
+    def __unicode__(self):
+        return self.team_name
+
+
+class TeamMember(models.Model):
+    team = models.ForeignKey(Team)
+    member = models.ForeignKey(User)
+    date_joined = models.DateTimeField('Date Joined', auto_now_add=True)
+
+    class Meta:
+        unique_together = ('team', 'member')
+
+    def __unicode__(self):
+        return str(self.member)
 
 
 def user_activated_callback(sender, user, request, **kwargs):
