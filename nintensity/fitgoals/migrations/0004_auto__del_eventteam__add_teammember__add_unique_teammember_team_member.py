@@ -14,7 +14,7 @@ class Migration(SchemaMigration):
         # Adding model 'TeamMember'
         db.create_table(u'fitgoals_teammember', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('team', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['fitgoals.TeamForEvent'])),
+            ('team', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['fitgoals.Team'])),
             ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('date_joined', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
@@ -23,22 +23,9 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'TeamMember', fields ['team', 'member']
         db.create_unique(u'fitgoals_teammember', ['team_id', 'member_id'])
 
-        # Adding model 'TeamForEvent'
-        db.create_table(u'fitgoals_teamforevent', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['fitgoals.Event'])),
-            ('team_name', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('team_creator', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal(u'fitgoals', ['TeamForEvent'])
-
-        # Adding unique constraint on 'TeamForEvent', fields ['event', 'team_name']
-        db.create_unique(u'fitgoals_teamforevent', ['event_id', 'team_name'])
-
         # Adding field 'Event.event_creator'
         db.add_column(u'fitgoals_event', 'event_creator',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default='admin', to=orm['auth.User']),
                       keep_default=False)
 
 
@@ -50,21 +37,42 @@ class Migration(SchemaMigration):
 
         # Changing field 'Event.event_location'
         db.alter_column(u'fitgoals_event', 'event_location', self.gf('django.db.models.fields.CharField')(max_length=150))
-        # Deleting field 'Team.team_name'
-        db.delete_column(u'fitgoals_team', 'team_name')
+        # Deleting field 'Team.group_ptr'
+        db.delete_column(u'fitgoals_team', u'group_ptr_id')
 
-        # Adding field 'Team.group_name'
-        db.add_column(u'fitgoals_team', 'group_name',
-                      self.gf('django.db.models.fields.CharField')(max_length=128, null=True, blank=True),
+        # Adding field 'Team.id'
+        db.add_column(u'fitgoals_team', u'id',
+                      self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True),
+                      keep_default=False)
+
+        # Adding field 'Team.event'
+        db.add_column(u'fitgoals_team', 'event',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['fitgoals.Event']),
+                      keep_default=False)
+
+        # Adding field 'Team.team_creator'
+        db.add_column(u'fitgoals_team', 'team_creator',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default='admin', to=orm['auth.User']),
+                      keep_default=False)
+
+        # Adding field 'Team.date_created'
+        db.add_column(u'fitgoals_team', 'date_created',
+                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=datetime.datetime(2014, 5, 7, 0, 0), blank=True),
                       keep_default=False)
 
 
+        # Changing field 'Team.team_name'
+        db.alter_column(u'fitgoals_team', 'team_name', self.gf('django.db.models.fields.CharField')(max_length=100))
+        # Adding unique constraint on 'Team', fields ['event', 'team_name']
+        db.create_unique(u'fitgoals_team', ['event_id', 'team_name'])
+
+
     def backwards(self, orm):
+        # Removing unique constraint on 'Team', fields ['event', 'team_name']
+        db.delete_unique(u'fitgoals_team', ['event_id', 'team_name'])
+
         # Removing unique constraint on 'Event', fields ['event_name']
         db.delete_unique(u'fitgoals_event', ['event_name'])
-
-        # Removing unique constraint on 'TeamForEvent', fields ['event', 'team_name']
-        db.delete_unique(u'fitgoals_teamforevent', ['event_id', 'team_name'])
 
         # Removing unique constraint on 'TeamMember', fields ['team', 'member']
         db.delete_unique(u'fitgoals_teammember', ['team_id', 'member_id'])
@@ -80,9 +88,6 @@ class Migration(SchemaMigration):
         # Deleting model 'TeamMember'
         db.delete_table(u'fitgoals_teammember')
 
-        # Deleting model 'TeamForEvent'
-        db.delete_table(u'fitgoals_teamforevent')
-
         # Deleting field 'Event.event_creator'
         db.delete_column(u'fitgoals_event', 'event_creator_id')
 
@@ -92,14 +97,26 @@ class Migration(SchemaMigration):
 
         # Changing field 'Event.event_location'
         db.alter_column(u'fitgoals_event', 'event_location', self.gf('django.db.models.fields.CharField')(max_length=128))
-        # Adding field 'Team.team_name'
-        db.add_column(u'fitgoals_team', 'team_name',
-                      self.gf('django.db.models.fields.CharField')(default='Old', max_length=128),
+        # Adding field 'Team.group_ptr'
+        db.add_column(u'fitgoals_team', u'group_ptr',
+                      self.gf('django.db.models.fields.related.OneToOneField')(default=None, to=orm['auth.Group'], unique=True, primary_key=True),
                       keep_default=False)
 
-        # Deleting field 'Team.group_name'
-        db.delete_column(u'fitgoals_team', 'group_name')
+        # Deleting field 'Team.id'
+        db.delete_column(u'fitgoals_team', u'id')
 
+        # Deleting field 'Team.event'
+        db.delete_column(u'fitgoals_team', 'event_id')
+
+        # Deleting field 'Team.team_creator'
+        db.delete_column(u'fitgoals_team', 'team_creator_id')
+
+        # Deleting field 'Team.date_created'
+        db.delete_column(u'fitgoals_team', 'date_created')
+
+
+        # Changing field 'Team.team_name'
+        db.alter_column(u'fitgoals_team', 'team_name', self.gf('django.db.models.fields.CharField')(max_length=128))
 
     models = {
         u'auth.group': {
@@ -140,7 +157,7 @@ class Migration(SchemaMigration):
         },
         u'fitgoals.event': {
             'Meta': {'object_name': 'Event'},
-            'event_creator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
+            'event_creator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
             'event_date': ('django.db.models.fields.DateTimeField', [], {}),
             'event_description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'event_location': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
@@ -149,24 +166,19 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         u'fitgoals.team': {
-            'Meta': {'object_name': 'Team', '_ormbases': [u'auth.Group']},
-            'group_name': ('django.db.models.fields.CharField', [], {'max_length': '128', 'null': 'True', 'blank': 'True'}),
-            u'group_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.Group']", 'unique': 'True', 'primary_key': 'True'})
-        },
-        u'fitgoals.teamforevent': {
-            'Meta': {'unique_together': "(('event', 'team_name'),)", 'object_name': 'TeamForEvent'},
+            'Meta': {'unique_together': "(('event', 'team_name'),)", 'object_name': 'Team'},
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['fitgoals.Event']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'team_creator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'team_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
+            'team_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'fitgoals.teammember': {
             'Meta': {'unique_together': "(('team', 'member'),)", 'object_name': 'TeamMember'},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'member': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'team': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['fitgoals.TeamForEvent']"})
+            'team': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['fitgoals.Team']"})
         },
         u'fitgoals.workoutlog': {
             'Meta': {'object_name': 'WorkoutLog'},
