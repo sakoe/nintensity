@@ -97,8 +97,15 @@ def events_view(request):
         # past events group is formed
         past_events = all_events.exclude(event_date__gte=datetime.date.today())
 
-        future_grouping = final_grouper(event_grouper(future_events))
-        past_grouping = final_grouper(event_grouper(past_events))
+        if len(future_events) > 0:
+            future_grouping = final_grouper(event_grouper(future_events))
+        else:
+            future_grouping = []
+        
+        if len(past_events) > 0:
+            past_grouping = final_grouper(event_grouper(past_events))
+        else:
+            past_grouping = []
 
         # context is set
         context = {}
