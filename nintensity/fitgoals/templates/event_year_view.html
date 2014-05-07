@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+            <h1><a href="..">See All Events</a></h1>
+            <div id="events_this_year">
+                <h1>Events in {{ event_year }}</h1>
+                {% for month in grouped_monthly_events %}
+                <h2>{{ month.0 }}</h2>
+                <table>
+                    <tbody>
+                    {% for events in month %}
+                        {% for event in events %}
+                            {% if event.event_date.day %}
+                        <tr>
+                            <td>{{ event.event_date.day }}</td>
+                            <td><a href="{{ event.pk }}/">{{ event.event_name }}</a></td>
+                        </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            </div>
+{% endblock %}
