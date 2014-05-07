@@ -60,12 +60,6 @@ def root_view(request):
     return render(request, 'root_view.html')
 
 
-def profile_view(request):
-    """
-    This provides the site's profile view
-    """
-    return render(request, 'profile_view.html')
-
 @login_required
 def workouts_view(request):
     """
