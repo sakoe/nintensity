@@ -111,3 +111,5 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
+
+DEFAULT_GROUP_NAME = 'FitGoals'
