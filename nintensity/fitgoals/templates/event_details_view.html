@@ -19,14 +19,18 @@
                     <h1>Teams For This Event</h1>
                     {% for complete_team in all_teams_for_event %}
                     <div class="team">
-                        <h1>{{ complete_team.0 }}
+                        <h1>{{ complete_team.1 }}
                             {% if can_join_team == True %}
-                            <a href="join-team/">Join This Team</a>
+                            <a href="{{ complete_team.0 }}/">Join This Team</a>
                             {% endif %}
                         </h1>
                         <ul>
-                            {% for each in complete_team.1 %}
+                            {% for each in complete_team.2 %}
+                                {% if each == username %}
+                            <li>{{ each }} <a href="{{ complete_team.0 }}/">Leave This Team</a></li>
+                                {% else %}
                             <li>{{ each }}</li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
