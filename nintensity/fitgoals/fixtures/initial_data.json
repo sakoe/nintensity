@@ -1,0 +1,74 @@
+[
+{
+    "pk": 1, 
+    "model": "fitgoals.workouttype", 
+    "fields": {
+        "has_distance_component": false, 
+        "workout_type": "demo run"
+    }
+},
+{
+    "pk": 1,
+    "model": "auth.group",
+    "fields": {
+        "name": "FitGoals"
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "demo", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-05-08T20:57:07.887Z", 
+        "groups":  [
+            1
+        ],
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$nd43yBmQJEeN$Qm4y5iR8vyxVeo4k628PPwuXRH/ZDrcfolyYsqg08bM=", 
+        "email": "demo@demo.com", 
+        "date_joined": "2014-05-08T20:55:34.887Z"
+    }
+},
+{
+    "pk": 1, 
+    "model": "fitgoals.workoutlog", 
+    "fields": {
+        "workout_duration": "00:50:00", 
+        "workout_type": 1, 
+        "workout_distance_miles": "2.00", 
+        "workout_name": "demo run 1", 
+        "created_date": "2014-05-08T20:58:43.211Z", 
+        "workout_date": "2014-05-01T13:45:05Z", 
+        "user": 2
+    }
+},
+{
+    "pk": 1, 
+    "model": "fitgoals.event", 
+    "fields": {
+        "event_creator": 2, 
+        "event_description": "", 
+        "event_url": "", 
+        "event_name": "past python class meeting", 
+        "event_date": "2013-05-06T15:00:00Z", 
+        "event_location": "UW PCE Rm 505"
+    }
+},
+{
+    "pk": 2, 
+    "model": "fitgoals.event", 
+    "fields": {
+        "event_creator": 2, 
+        "event_description": "", 
+        "event_url": "", 
+        "event_name": "final python class meeting", 
+        "event_date": "2014-05-27T18:00:00Z", 
+        "event_location": "UW PCE Rm 505"
+    }
+}
+]
