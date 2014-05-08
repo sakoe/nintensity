@@ -49,7 +49,7 @@ def final_grouper(timely_group):
 
 def team_and_user_info(request, event_pk):
     """
-    function that retruns multiple values for multiple event views
+    function that returns multiple values for multiple event views
     """
     # current event's teams are found
     event_teams = Team.objects.filter(event=event_pk).order_by('date_created')
@@ -250,7 +250,7 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
     except UnboundLocalError:
         raise Http404
 
-    # check if user's on this specific team
+    # check if user is on this specific team
     on_team = False
     for each in specific_team[2]:
         if each == str(particular_user):
