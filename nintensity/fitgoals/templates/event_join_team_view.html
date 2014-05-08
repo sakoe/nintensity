@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-            <div id="make_team">
-                <p>join team here</p>
-            </div>
+            <div><a href="..">Return to {{ specific_event }}</a></div>
+            {% if can_join_team and can_make_team %}
+            <div>You shouldn't be seeing this message, ever.</div>
+            {% else %}
+            <div>You cannot join two teams for the same event.</div>
+            {% endif %}
 {% endblock %}
