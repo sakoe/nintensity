@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from fitgoals.admin import WorkoutLog, user_admin_site
 from django.contrib.auth.decorators import login_required
-
 import datetime
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from fitgoals.admin import Event, Team, TeamMember
 
+
 # FUNCTIONS
+
 
 def event_grouper(timely_events):
     """
@@ -24,6 +25,7 @@ def event_grouper(timely_events):
             grouping.append(each)
         grouped_events.append(grouping)
     return grouped_events
+
 
 def final_grouper(timely_group):
     """
@@ -44,14 +46,61 @@ def final_grouper(timely_group):
         final_grouping.append(year_grouping)
     return final_grouping
 
+
+def team_and_user_info(request, event_pk):
+    """
+    function that retruns multiple values for multiple event views
+    """
+    # current event's teams are found
+    event_teams = Team.objects.filter(event=event_pk).order_by('date_created')
+
+    # list of teams with team name and list of members for each team created
+    all_teams_for_event = []
+    for each in event_teams:
+        complete_team = [each.pk, each.team_name]
+        members = TeamMember.objects.filter(team_id=each.pk).order_by('date_joined')
+        str_members = []
+        for each in members:
+            str_members.append(str(each))
+        complete_team.append(str_members)
+        all_teams_for_event.append(complete_team)
+
+    # current user's info is found
+    particular_user = User.objects.get(username=request.user)
+
+    # whether current user has created a team for this event is determined
+    user_created_team = Team.objects.filter(team_creator=particular_user.id,
+        event_id=event_pk)
+    if len(user_created_team) > 0:
+        can_make_team = False
+    else:
+        can_make_team = True
+
+    # whether current user has joined a team for this event is determined
+    user_team_memberships_for_event = []
+    for each in event_teams:
+        memberships = TeamMember.objects.filter(team_id=each.pk, member_id=particular_user.id)
+        for each in memberships:
+            user_team_memberships_for_event.append(each)
+    if len(user_team_memberships_for_event) > 0:
+        can_join_team = False
+    else:
+        can_join_team = True
+
+    return all_teams_for_event, particular_user, can_make_team, can_join_team
+
+
 # HANDY DATA
+
 
 # simple dictionary of month names created for use in multiple views
 month_names = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May',
                6:'June', 7:'July', 8:'August', 9:'September', 10:'October',
                11:'November', 12:'December'}
 
+
 ################################################################################
+
 
 def root_view(request):
     """
@@ -59,12 +108,6 @@ def root_view(request):
     """
     return render(request, 'root_view.html')
 
-
-def profile_view(request):
-    """
-    This provides the site's profile view
-    """
-    return render(request, 'profile_view.html')
 
 @login_required
 def workouts_view(request):
@@ -162,42 +205,11 @@ def event_details_view(request, event_year, event_pk):
         specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
     except Event.DoesNotExist:
         raise Http404
-    
-    # current event's teams are found
-    event_teams = Team.objects.filter(event=event_pk).order_by('date_created')
 
-    # list of teams with team name and list of members for each team created
-    all_teams_for_event = []
-    for each in event_teams:
-        complete_team = [each.team_name]
-        members = TeamMember.objects.filter(team_id=each.pk).order_by('date_joined')
-        complete_team.append(members)
-        all_teams_for_event.append(complete_team)
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
 
-    # current user's info is found
-    particular_user = User.objects.get(username=request.user)
-
-    # whether current user has created a team for this event is determined
-    user_created_team = Team.objects.filter(team_creator=particular_user.id,
-        event_id=event_pk)
-    if len(user_created_team) > 0:
-        can_make_team = False
-    else:
-        can_make_team = True
-
-    # whether current user has joined a team for this event is determined
-    user_team_memberships_for_event = []
-    for each in event_teams:
-        memberships = TeamMember.objects.filter(team_id=each.pk, member_id=particular_user.id)
-        for each in memberships:
-            user_team_memberships_for_event.append(each)
-    if len(user_team_memberships_for_event) > 0:
-        can_join_team = False
-    else:
-        can_join_team = True
-
-    # url usefulness kind of assesed
-    if len(specific_event.event_url) > 3:
+    # url assesed
+    if specific_event.event_url:
         include_url = True
     else:
         include_url = False
@@ -208,8 +220,60 @@ def event_details_view(request, event_year, event_pk):
     context['all_teams_for_event'] = all_teams_for_event
     context['can_make_team'] = can_make_team
     context['can_join_team'] = can_join_team
+    context['username'] = particular_user.username
     context['include_url'] = include_url
     return render(request, 'event_details_view.html', context)
+
+
+@login_required
+def event_join_or_leave_team(request, event_year, event_pk, team_pk):
+    """
+    This provides the site's event 'join or leave team' view
+    """
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
+    except Event.DoesNotExist:
+        raise Http404
+
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
+
+    # specific team found
+    for team in all_teams_for_event:
+        if int(team_pk) == team[0]:
+            specific_team = team
+
+    # 404 raised if bad team_pk manually typed into url
+    try:
+        x = specific_team
+    except UnboundLocalError:
+        raise Http404
+
+    # check if user's on this specific team
+    on_team = False
+    for each in specific_team[2]:
+        if each == str(particular_user):
+            on_team = True
+
+    # ability to leave/join team is assessed
+    if on_team: # if user is already on team, remove
+        current_member = TeamMember.objects.get(team_id=specific_team[0], member_id=particular_user.pk)
+        current_member.delete()
+        return HttpResponseRedirect('..')
+    elif can_join_team and can_make_team: # if user is not on team, join
+        # user added to team
+        new_member = TeamMember(team_id=team_pk, member_id=particular_user.pk)
+        new_member.save()
+        return HttpResponseRedirect('..')
+    else:
+        # context is set
+        context = {}
+        context['specific_event'] = specific_event
+        context['specific_team'] = specific_team
+        context['can_make_team'] = can_make_team
+        context['can_join_team'] = can_join_team
+        return render(request, 'event_join_team_view.html', context)
 
 
 @login_required
@@ -219,15 +283,6 @@ def event_make_team(request, event_year, event_pk, action):
     """
     context = {}
     return render(request, 'event_make_team_view.html', context)
-
-
-@login_required
-def event_join_team(request, event_year, event_pk, action):
-    """
-    This provides the site's event 'join team' view
-    """
-    context = {}
-    return render(request, 'event_join_team_view.html', context)
 
 
 @login_required
