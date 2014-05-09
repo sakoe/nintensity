@@ -334,7 +334,7 @@ def event_make_team(request, event_year, event_pk, action):
         if form.is_valid():
             team_name = form.cleaned_data['team_name']
             if team_name in teams_list:
-                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN ##############
+                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN #############
                 context['form'] = form
                 return render(request, 'event_make_team_view.html', context)
             else:
