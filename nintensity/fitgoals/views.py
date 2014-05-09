@@ -280,7 +280,7 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
 @login_required
 def event_make_team(request, event_year, event_pk, action):
     """
-    This provides the site's event 'make team' view
+    This provides the site's event "make team" view
     """
     # event (if it exists) is found
     try:
@@ -313,14 +313,14 @@ def event_make_team(request, event_year, event_pk, action):
         if form.is_valid():
             team_name = form.cleaned_data['team_name']
             if team_name in teams_list:
-                # ERROR MESSAGE NEEDED
+                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN
                 context['form'] = form
                 return render(request, 'event_make_team_view.html', context)
             else:
                 event_id = specific_event.pk
                 team_creator = particular_user.pk
-                # make new team
-                # place creator on new team
+                # MAKE NEW TEAM
+                # PLACE CREATOR ON NEW TEAM
                 return HttpResponseRedirect('..')
         else:
             context['form'] = form
