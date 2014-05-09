@@ -8,13 +8,6 @@
     }
 },
 {
-    "pk": 1,
-    "model": "auth.group",
-    "fields": {
-        "name": "FitGoals"
-    }
-},
-{
     "pk": 2, 
     "model": "auth.user", 
     "fields": {
@@ -26,7 +19,9 @@
         "is_staff": false, 
         "last_login": "2014-05-08T20:57:07.887Z", 
         "groups":  [
-            1
+            [
+                "FitGoals"
+            ]
         ],
         "user_permissions": [], 
         "password": "pbkdf2_sha256$12000$nd43yBmQJEeN$Qm4y5iR8vyxVeo4k628PPwuXRH/ZDrcfolyYsqg08bM=", 
@@ -44,14 +39,18 @@
         "workout_name": "demo run 1", 
         "created_date": "2014-05-08T20:58:43.211Z", 
         "workout_date": "2014-05-01T13:45:05Z", 
-        "user": 2
+        "user": [
+            "demo"
+        ]
     }
 },
 {
     "pk": 1, 
     "model": "fitgoals.event", 
     "fields": {
-        "event_creator": 2, 
+        "event_creator": [
+            "demo"
+        ],
         "event_description": "", 
         "event_url": "", 
         "event_name": "past python class meeting", 
@@ -63,7 +62,9 @@
     "pk": 2, 
     "model": "fitgoals.event", 
     "fields": {
-        "event_creator": 2, 
+        "event_creator": [
+            "demo"
+        ],
         "event_description": "", 
         "event_url": "", 
         "event_name": "final python class meeting", 
