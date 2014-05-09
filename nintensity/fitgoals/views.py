@@ -257,14 +257,28 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
         if each == str(particular_user):
             on_team = True
 
-    # ability to leave/join team is assessed
-    if on_team: # if user is already on team, remove
-        current_member = TeamMember.objects.get(team_id=specific_team[0], member_id=particular_user.pk)
-        current_member.delete()
+    # ability to leave/join team is assessed, and appropriate action is taken
+    if on_team:
+        team_in_question = Team.objects.get(pk=specific_team[0])
+        # if user is the team's creator, delete the team and unjoin all users
+        # from team...
+        if particular_user.pk == team_in_question.team_creator.pk:
+            # delete entire team
+            team_in_question.delete()
+        # ...otherwise, simply unjoin the user
+        else:
+            current_member = TeamMember.objects.get(
+                team_id=specific_team[0],
+                member_id=particular_user.pk
+            )
+            current_member.delete()
         return HttpResponseRedirect('..')
     elif can_join_team and can_make_team: # if user is not on team, join
         # user added to team
-        new_member = TeamMember(team_id=team_pk, member_id=particular_user.pk)
+        new_member = TeamMember(
+            team_id=team_pk,
+            member_id=particular_user.pk
+        )
         new_member.save()
         return HttpResponseRedirect('..')
     else:
@@ -285,7 +299,10 @@ def event_make_team(request, event_year, event_pk, action):
     # event (if it exists) is found
     try:
         all_events = Event.objects.all()
-        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
+        specific_event = all_events.get(
+            event_date__year=event_year,
+            pk=event_pk
+        )
     except Event.DoesNotExist:
         raise Http404
 
@@ -309,18 +326,30 @@ def event_make_team(request, event_year, event_pk, action):
 
     # form-related
     if request.method == 'POST':
+        if can_make_team == False or can_join_team == False:
+            form = MakeTeamForm()
+            context['form'] = form
+            return render(request, 'event_make_team_view.html', context)
         form = MakeTeamForm(request.POST)
         if form.is_valid():
             team_name = form.cleaned_data['team_name']
             if team_name in teams_list:
-                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN
+                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN ##############
                 context['form'] = form
                 return render(request, 'event_make_team_view.html', context)
             else:
-                event_id = specific_event.pk
-                team_creator = particular_user.pk
-                # MAKE NEW TEAM
-                # PLACE CREATOR ON NEW TEAM
+                # new team created and user added to team
+                new_team = Team(
+                    event_id=specific_event.pk,
+                    team_name=team_name,
+                    team_creator=particular_user
+                )
+                new_team.save()
+                first_member = TeamMember(
+                    team_id=new_team.pk,
+                    member_id=particular_user.pk
+                )
+                first_member.save()
                 return HttpResponseRedirect('..')
         else:
             context['form'] = form
