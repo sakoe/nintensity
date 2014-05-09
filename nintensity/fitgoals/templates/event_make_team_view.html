@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+            <div><a href="..">Return to {{ specific_event }}</a></div>
+            {% if can_make_team == False or can_join_team == False %}
+            <div>You have already joined a team for this event, so you cannot make a new team.</div>
+            {% else %}
             <div id="make_team">
-                <p>make team here</p>
+                <h1>Current Team Names</h1>
+                <ul>
+                    {% for team in teams_list %}
+                    <li>{{ team }}</li>
+                    {% endfor %}
+                </ul>
+                <form action="" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Make New Team" />
+                </form>
             </div>
+            {% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from fitgoals.admin import Event, Team, TeamMember
+from django import forms
 
 
 # FUNCTIONS
@@ -281,8 +282,53 @@ def event_make_team(request, event_year, event_pk, action):
     """
     This provides the site's event 'make team' view
     """
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
+    except Event.DoesNotExist:
+        raise Http404
+
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
+
+    # list of current teams for particular event
+    teams_list = []
+    for each in all_teams_for_event:
+        teams_list.append(each[1])
+
+    # the form being utilized for this view
+    class MakeTeamForm(forms.Form):
+        team_name = forms.CharField(label='New Team Name', max_length=100)
+
+    # context is set
     context = {}
-    return render(request, 'event_make_team_view.html', context)
+    context['specific_event'] = specific_event
+    context['can_make_team'] = can_make_team
+    context['can_join_team'] = can_join_team
+    context['teams_list'] = teams_list
+
+    # form-related
+    if request.method == 'POST':
+        form = MakeTeamForm(request.POST)
+        if form.is_valid():
+            team_name = form.cleaned_data['team_name']
+            if team_name in teams_list:
+                # ERROR MESSAGE NEEDED
+                context['form'] = form
+                return render(request, 'event_make_team_view.html', context)
+            else:
+                event_id = specific_event.pk
+                team_creator = particular_user.pk
+                # make new team
+                # place creator on new team
+                return HttpResponseRedirect('..')
+        else:
+            context['form'] = form
+            return render(request, 'event_make_team_view.html', context)
+    else:
+        form = MakeTeamForm()
+        context['form'] = form
+        return render(request, 'event_make_team_view.html', context)
 
 
 @login_required

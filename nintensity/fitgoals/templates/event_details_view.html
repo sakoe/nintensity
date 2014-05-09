@@ -20,7 +20,7 @@
                     {% for complete_team in all_teams_for_event %}
                     <div class="team">
                         <h1>{{ complete_team.1 }}
-                            {% if can_join_team == True %}
+                            {% if can_join_team == True and can_make_team == True %}
                             <a href="{{ complete_team.0 }}/">Join This Team</a>
                             {% endif %}
                         </h1>
