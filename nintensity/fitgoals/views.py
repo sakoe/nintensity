@@ -427,7 +427,9 @@ def event_make_team(request, event_year, event_pk):
 
 @login_required
 def event_delete_team(request, event_year, event_pk, team_pk):
-    """docstring"""
+    """
+    This provides the site's event delete view
+    """
     # event (if it exists) is found
     try:
         all_events = Event.objects.all()
