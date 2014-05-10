@@ -8,7 +8,7 @@ from fitgoals.admin import Event, Team, TeamMember
 from django import forms
 
 
-# FUNCTIONS
+# FUNCTIONS ####################################################################
 
 
 def event_grouper(timely_events):
@@ -91,7 +91,7 @@ def team_and_user_info(request, event_pk):
     return all_teams_for_event, particular_user, can_make_team, can_join_team
 
 
-# HANDY DATA
+# HANDY DATA ###################################################################
 
 
 # simple dictionary of month names created for use in multiple views
@@ -100,7 +100,7 @@ month_names = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May',
                11:'November', 12:'December'}
 
 
-################################################################################
+# VIEWS ########################################################################
 
 
 def root_view(request):
@@ -247,10 +247,43 @@ def event_delete_view(request, event_year, event_pk):
     except Event.DoesNotExist:
         raise Http404
 
+    # current user's info is found
+    particular_user = User.objects.get(username=request.user)
+
+    # the form being utilized for this view
+    CHOICES = (('0', 'Yes',), ('1', 'No',))
+    class DeleteEventForm(forms.Form):
+        delete_option = forms.ChoiceField(
+            initial = '1',
+            label = 'Are you absolutely sure you want to delete this event?',
+            widget = forms.RadioSelect,
+            choices = CHOICES
+    )
+
     # context is set
     context = {}
     context['specific_event'] = specific_event
-    return render(request, 'event_delete_view.html', context)
+    context['particular_user'] = particular_user
+    context['event_creator'] = specific_event.event_creator
+
+    # form-related
+    if request.method == 'POST':
+        form = DeleteEventForm(request.POST)
+        if form.is_valid():
+            delete_option = form.cleaned_data['delete_option']
+            if delete_option == '1':
+                return HttpResponseRedirect('..')
+            elif delete_option == '0':
+                # delete event
+                specific_event.delete()
+                return HttpResponseRedirect('../../..')
+        else:
+            context['form'] = form
+            return render(request, 'event_delete_view.html', context)
+    else:
+        form = DeleteEventForm()
+        context['form'] = form
+        return render(request, 'event_delete_view.html', context)
 
 
 @login_required
@@ -343,6 +376,12 @@ def event_make_team(request, event_year, event_pk):
     class MakeTeamForm(forms.Form):
         team_name = forms.CharField(label='New Team Name', max_length=100)
 
+        def clean_team_name(self):
+            data = self.cleaned_data['team_name']
+            if data in teams_list:
+                raise forms.ValidationError("Please select another team name")
+            return data
+
     # context is set
     context = {}
     context['specific_event'] = specific_event
@@ -360,7 +399,7 @@ def event_make_team(request, event_year, event_pk):
         if form.is_valid():
             team_name = form.cleaned_data['team_name']
             if team_name in teams_list:
-                # ERROR MESSAGE NEEDED WHEN NAME IS ALREADY TAKEN #############
+                # return ValidationError message
                 context['form'] = form
                 return render(request, 'event_make_team_view.html', context)
             else:
