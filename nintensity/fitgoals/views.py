@@ -260,11 +260,10 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
     # ability to leave/join team is assessed, and appropriate action is taken
     if on_team:
         team_in_question = Team.objects.get(pk=specific_team[0])
-        # if user is the team's creator, delete the team and unjoin all users
-        # from team...
+        # if user is the team's creator, give option to delete the entire team
         if particular_user.pk == team_in_question.team_creator.pk:
-            # delete entire team
-            team_in_question.delete()
+            # redirect to delete team view
+            return HttpResponseRedirect('delete-team/')
         # ...otherwise, simply unjoin the user
         else:
             current_member = TeamMember.objects.get(
@@ -292,7 +291,7 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
 
 
 @login_required
-def event_make_team(request, event_year, event_pk, action):
+def event_make_team(request, event_year, event_pk):
     """
     This provides the site's event "make team" view
     """
@@ -360,6 +359,74 @@ def event_make_team(request, event_year, event_pk, action):
         return render(request, 'event_make_team_view.html', context)
 
 
+@login_required
+def event_delete_team(request, event_year, event_pk, team_pk):
+    """docstring"""
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(
+            event_date__year=event_year,
+            pk=event_pk
+        )
+    except Event.DoesNotExist:
+        raise Http404
+
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
+    
+    # specific team found
+    for team in all_teams_for_event:
+        if int(team_pk) == team[0]:
+            specific_team = team
+
+    # 404 raised if bad team_pk manually typed into url
+    try:
+        x = specific_team
+    except UnboundLocalError:
+        raise Http404
+
+    # whether user is team creator is determined
+    team_in_question = Team.objects.get(pk=specific_team[0])
+    if particular_user.pk == team_in_question.team_creator.pk:
+        team_creator = True
+    else:
+        team_creator = False
+
+    # the form being utilized for this view
+    CHOICES = (('0', 'Yes',), ('1', 'No',))
+    class DeleteTeamForm(forms.Form):
+        delete_option = forms.ChoiceField(
+            initial = '1',
+            label = 'Are you absolutely sure you want to dissolve this team?',
+            widget = forms.RadioSelect,
+            choices = CHOICES
+    )
+
+    # context is set
+    context = {}
+    context['specific_event'] = specific_event
+    context['team_creator'] = team_creator
+
+    # form-related
+    if request.method == 'POST':
+        form = DeleteTeamForm(request.POST)
+        if form.is_valid():
+            delete_option = form.cleaned_data['delete_option']
+            if delete_option == '1':
+                return HttpResponseRedirect('../..')
+            elif delete_option == '0':
+                # delete entire team
+                team_in_question.delete()
+                return HttpResponseRedirect('../..')
+        else:
+            context['form'] = form
+            return render(request, 'event_delete_team_view.html', context)
+    else:
+        form = DeleteTeamForm()
+        context['form'] = form
+        return render(request, 'event_delete_team_view.html', context)
+
+    
 @login_required
 def leaderboards_view(request):
     """
