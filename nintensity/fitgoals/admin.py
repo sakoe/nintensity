@@ -258,22 +258,6 @@ class EventAdmin(admin.ModelAdmin):
     )
 
 
-class EventAdmin(admin.ModelAdmin):
-
-    """
-    Customize the event admin page.
-
-    """
-
-    list_display = (
-        'event_name',
-        'event_url',
-        'event_date',
-        'event_description',
-        'event_location',
-    )
-
-
 class TeamAdmin(admin.ModelAdmin):
 
     """
@@ -285,18 +269,6 @@ class TeamAdmin(admin.ModelAdmin):
         'event',
         'team_name',
         'team_creator',
-    )
-
-class TeamMemberAdmin(admin.ModelAdmin):
-
-    """
-    Customize the event admin page.
-
-    """
-
-    list_display = (
-        'team',
-        'member',
     )
 
 
@@ -321,13 +293,12 @@ def autodiscover(usersite=site):
             if module_has_submodule(mod, 'admin'):
                 raise
 
+
 user_admin_site = UserAdmin(name='user')
 user_admin_site.register(WorkoutLog, WorkoutLogAdmin)
 user_admin_site.register(Event, EventAdmin)
 
 # admin.site.register(WorkoutLog, WorkoutLogAdmin)
 admin.site.register(WorkoutType, WorkoutTypeAdmin)
-
 admin.site.register(Event, EventAdmin) 
 admin.site.register(Team, TeamAdmin)
-admin.site.register(TeamMember, TeamMemberAdmin)

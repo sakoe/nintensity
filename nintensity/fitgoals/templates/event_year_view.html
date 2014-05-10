@@ -12,7 +12,12 @@
                             {% if event.event_date.day %}
                         <tr>
                             <td>{{ event.event_date.day }}</td>
-                            <td><a href="{{ event.pk }}/">{{ event.event_name }}</a></td>
+                            <td>
+                            <a href="{{ event.pk }}/">{{ event.event_name }}</a>
+                            {% if particular_user == event.event_creator %}
+                            <a href="{{ event.pk }}/delete-event/">Delete This Event</a>
+                            {% endif %}
+                            </td>
                         </tr>
                             {% endif %}
                         {% endfor %}

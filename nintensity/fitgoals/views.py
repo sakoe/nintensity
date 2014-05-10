@@ -5,9 +5,10 @@ import datetime
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from fitgoals.admin import Event, Team, TeamMember
+from django import forms
 
 
-# FUNCTIONS
+# FUNCTIONS ####################################################################
 
 
 def event_grouper(timely_events):
@@ -90,7 +91,7 @@ def team_and_user_info(request, event_pk):
     return all_teams_for_event, particular_user, can_make_team, can_join_team
 
 
-# HANDY DATA
+# HANDY DATA ###################################################################
 
 
 # simple dictionary of month names created for use in multiple views
@@ -99,7 +100,7 @@ month_names = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May',
                11:'November', 12:'December'}
 
 
-################################################################################
+# VIEWS ########################################################################
 
 
 def root_view(request):
@@ -150,10 +151,14 @@ def events_view(request):
         else:
             past_grouping = []
 
+        # current user's info is found
+        particular_user = User.objects.get(username=request.user)
+
         # context is set
         context = {}
         context['future_grouping'] = future_grouping
         context['past_grouping'] = past_grouping
+        context['particular_user'] = particular_user
         return render(request, 'events_view.html', context)
     
     # ...but if no events exist
@@ -187,10 +192,14 @@ def event_year_view(request, event_year):
         with_month = (month_names[grouping[0].event_date.month], grouping)
         grouped_monthly_events.append(with_month)
 
+    # current user's info is found
+    particular_user = User.objects.get(username=request.user)
+
     # context is set
     context = {}
     context['event_year'] = event_year
     context['grouped_monthly_events'] = grouped_monthly_events
+    context['particular_user'] = particular_user
     return render(request, 'event_year_view.html', context)
 
 
@@ -220,9 +229,61 @@ def event_details_view(request, event_year, event_pk):
     context['all_teams_for_event'] = all_teams_for_event
     context['can_make_team'] = can_make_team
     context['can_join_team'] = can_join_team
+    context['particular_user'] = particular_user
     context['username'] = particular_user.username
     context['include_url'] = include_url
     return render(request, 'event_details_view.html', context)
+
+
+@login_required
+def event_delete_view(request, event_year, event_pk):
+    """
+    This provides the site's event delete view
+    """
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
+    except Event.DoesNotExist:
+        raise Http404
+
+    # current user's info is found
+    particular_user = User.objects.get(username=request.user)
+
+    # the form being utilized for this view
+    CHOICES = (('0', 'Yes',), ('1', 'No',))
+    class DeleteEventForm(forms.Form):
+        delete_option = forms.ChoiceField(
+            initial = '1',
+            label = 'Are you absolutely sure you want to delete this event?',
+            widget = forms.RadioSelect,
+            choices = CHOICES
+    )
+
+    # context is set
+    context = {}
+    context['specific_event'] = specific_event
+    context['particular_user'] = particular_user
+    context['event_creator'] = specific_event.event_creator
+
+    # form-related
+    if request.method == 'POST':
+        form = DeleteEventForm(request.POST)
+        if form.is_valid():
+            delete_option = form.cleaned_data['delete_option']
+            if delete_option == '1':
+                return HttpResponseRedirect('..')
+            elif delete_option == '0':
+                # delete event
+                specific_event.delete()
+                return HttpResponseRedirect('../../..')
+        else:
+            context['form'] = form
+            return render(request, 'event_delete_view.html', context)
+    else:
+        form = DeleteEventForm()
+        context['form'] = form
+        return render(request, 'event_delete_view.html', context)
 
 
 @login_required
@@ -256,14 +317,27 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
         if each == str(particular_user):
             on_team = True
 
-    # ability to leave/join team is assessed
-    if on_team: # if user is already on team, remove
-        current_member = TeamMember.objects.get(team_id=specific_team[0], member_id=particular_user.pk)
-        current_member.delete()
+    # ability to leave/join team is assessed, and appropriate action is taken
+    if on_team:
+        team_in_question = Team.objects.get(pk=specific_team[0])
+        # if user is the team's creator, give option to delete the entire team
+        if particular_user.pk == team_in_question.team_creator.pk:
+            # redirect to delete team view
+            return HttpResponseRedirect('delete-team/')
+        # ...otherwise, simply unjoin the user
+        else:
+            current_member = TeamMember.objects.get(
+                team_id=specific_team[0],
+                member_id=particular_user.pk
+            )
+            current_member.delete()
         return HttpResponseRedirect('..')
     elif can_join_team and can_make_team: # if user is not on team, join
         # user added to team
-        new_member = TeamMember(team_id=team_pk, member_id=particular_user.pk)
+        new_member = TeamMember(
+            team_id=team_pk,
+            member_id=particular_user.pk
+        )
         new_member.save()
         return HttpResponseRedirect('..')
     else:
@@ -277,14 +351,148 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
 
 
 @login_required
-def event_make_team(request, event_year, event_pk, action):
+def event_make_team(request, event_year, event_pk):
     """
-    This provides the site's event 'make team' view
+    This provides the site's event "make team" view
     """
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(
+            event_date__year=event_year,
+            pk=event_pk
+        )
+    except Event.DoesNotExist:
+        raise Http404
+
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
+
+    # list of current teams for particular event
+    teams_list = []
+    for each in all_teams_for_event:
+        teams_list.append(each[1])
+
+    # the form being utilized for this view
+    class MakeTeamForm(forms.Form):
+        team_name = forms.CharField(label='New Team Name', max_length=100)
+
+        def clean_team_name(self):
+            data = self.cleaned_data['team_name']
+            if data in teams_list:
+                raise forms.ValidationError("Please select another team name")
+            return data
+
+    # context is set
     context = {}
-    return render(request, 'event_make_team_view.html', context)
+    context['specific_event'] = specific_event
+    context['can_make_team'] = can_make_team
+    context['can_join_team'] = can_join_team
+    context['teams_list'] = teams_list
+
+    # form-related
+    if request.method == 'POST':
+        if can_make_team == False or can_join_team == False:
+            form = MakeTeamForm()
+            context['form'] = form
+            return render(request, 'event_make_team_view.html', context)
+        form = MakeTeamForm(request.POST)
+        if form.is_valid():
+            team_name = form.cleaned_data['team_name']
+            if team_name in teams_list:
+                # return ValidationError message
+                context['form'] = form
+                return render(request, 'event_make_team_view.html', context)
+            else:
+                # new team created and user added to team
+                new_team = Team(
+                    event_id=specific_event.pk,
+                    team_name=team_name,
+                    team_creator=particular_user
+                )
+                new_team.save()
+                first_member = TeamMember(
+                    team_id=new_team.pk,
+                    member_id=particular_user.pk
+                )
+                first_member.save()
+                return HttpResponseRedirect('..')
+        else:
+            context['form'] = form
+            return render(request, 'event_make_team_view.html', context)
+    else:
+        form = MakeTeamForm()
+        context['form'] = form
+        return render(request, 'event_make_team_view.html', context)
 
 
+@login_required
+def event_delete_team(request, event_year, event_pk, team_pk):
+    """docstring"""
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(
+            event_date__year=event_year,
+            pk=event_pk
+        )
+    except Event.DoesNotExist:
+        raise Http404
+
+    all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
+    
+    # specific team found
+    for team in all_teams_for_event:
+        if int(team_pk) == team[0]:
+            specific_team = team
+
+    # 404 raised if bad team_pk manually typed into url
+    try:
+        x = specific_team
+    except UnboundLocalError:
+        raise Http404
+
+    # whether user is team creator is determined
+    team_in_question = Team.objects.get(pk=specific_team[0])
+    if particular_user.pk == team_in_question.team_creator.pk:
+        team_creator = True
+    else:
+        team_creator = False
+
+    # the form being utilized for this view
+    CHOICES = (('0', 'Yes',), ('1', 'No',))
+    class DeleteTeamForm(forms.Form):
+        delete_option = forms.ChoiceField(
+            initial = '1',
+            label = 'Are you absolutely sure you want to dissolve this team?',
+            widget = forms.RadioSelect,
+            choices = CHOICES
+    )
+
+    # context is set
+    context = {}
+    context['specific_event'] = specific_event
+    context['team_creator'] = team_creator
+
+    # form-related
+    if request.method == 'POST':
+        form = DeleteTeamForm(request.POST)
+        if form.is_valid():
+            delete_option = form.cleaned_data['delete_option']
+            if delete_option == '1':
+                return HttpResponseRedirect('../..')
+            elif delete_option == '0':
+                # delete entire team
+                team_in_question.delete()
+                return HttpResponseRedirect('../..')
+        else:
+            context['form'] = form
+            return render(request, 'event_delete_team_view.html', context)
+    else:
+        form = DeleteTeamForm()
+        context['form'] = form
+        return render(request, 'event_delete_team_view.html', context)
+
+    
 @login_required
 def leaderboards_view(request):
     """

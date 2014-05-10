@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+            <div><a href="../..">Return to {{ specific_event }}</a></div>
+            {% if team_creator == True %}
+            <form action="" method="post">{% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" />
+            </form>
+            {% else %}
+            <div>You cannot delete someone else's team.</div>
+            {% endif %}
+{% endblock %}
