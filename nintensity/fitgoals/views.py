@@ -151,10 +151,14 @@ def events_view(request):
         else:
             past_grouping = []
 
+        # current user's info is found
+        particular_user = User.objects.get(username=request.user)
+
         # context is set
         context = {}
         context['future_grouping'] = future_grouping
         context['past_grouping'] = past_grouping
+        context['particular_user'] = particular_user
         return render(request, 'events_view.html', context)
     
     # ...but if no events exist
@@ -188,10 +192,14 @@ def event_year_view(request, event_year):
         with_month = (month_names[grouping[0].event_date.month], grouping)
         grouped_monthly_events.append(with_month)
 
+    # current user's info is found
+    particular_user = User.objects.get(username=request.user)
+
     # context is set
     context = {}
     context['event_year'] = event_year
     context['grouped_monthly_events'] = grouped_monthly_events
+    context['particular_user'] = particular_user
     return render(request, 'event_year_view.html', context)
 
 
@@ -221,9 +229,28 @@ def event_details_view(request, event_year, event_pk):
     context['all_teams_for_event'] = all_teams_for_event
     context['can_make_team'] = can_make_team
     context['can_join_team'] = can_join_team
+    context['particular_user'] = particular_user
     context['username'] = particular_user.username
     context['include_url'] = include_url
     return render(request, 'event_details_view.html', context)
+
+
+@login_required
+def event_delete_view(request, event_year, event_pk):
+    """
+    This provides the site's event delete view
+    """
+    # event (if it exists) is found
+    try:
+        all_events = Event.objects.all()
+        specific_event = all_events.get(event_date__year=event_year, pk=event_pk)
+    except Event.DoesNotExist:
+        raise Http404
+
+    # context is set
+    context = {}
+    context['specific_event'] = specific_event
+    return render(request, 'event_delete_view.html', context)
 
 
 @login_required
