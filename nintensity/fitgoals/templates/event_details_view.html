@@ -7,7 +7,11 @@
                     {% if include_url == True %}
                     <h1>{{ event.event_name }} (<a href="{{ event.event_url }}" target="_blank">website</a>)</h1>
                     {% else %}
-                    <h1>{{ event.event_name }}</h1>
+                    <h1>{{ event.event_name }}
+                        {% if particular_user == event.event_creator %}
+                        <a href="delete-event/">Delete This Event</a>
+                        {% endif %}
+                    </h1>
                     {% endif %}
                     <ul>
                         <li>When: {{ event.event_date }}</li>
@@ -20,16 +24,23 @@
                     {% for complete_team in all_teams_for_event %}
                     <div class="team">
                         <h1>{{ complete_team.1 }}
-                            {% if can_join_team == True %}
+                            {% if complete_team.2.0 == username %}
+                            <a href="{{ complete_team.0 }}/">Dissolve This Team</a>
+                            {% endif %}
+                            {% if can_join_team == True and can_make_team == True %}
                             <a href="{{ complete_team.0 }}/">Join This Team</a>
                             {% endif %}
                         </h1>
                         <ul>
-                            {% for each in complete_team.2 %}
-                                {% if each == username %}
-                            <li>{{ each }} <a href="{{ complete_team.0 }}/">Leave This Team</a></li>
+                            {% for member in complete_team.2 %}
+                                {% if member == complete_team.2.0 and member == username%}
+                            <li>{{ member }}</li>
                                 {% else %}
-                            <li>{{ each }}</li>
+                                    {% if member == username %}
+                                <li>{{ member }} <a href="{{ complete_team.0 }}/">Leave This Team</a></li>
+                                    {% else %}
+                                <li>{{ member }}</li>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         </ul>
