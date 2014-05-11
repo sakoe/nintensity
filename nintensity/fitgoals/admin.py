@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import Sum
+from django.shortcuts import redirect
 from fitgoals.models import WorkoutLog, WorkoutType, Event
 from fitgoals.models import Team, TeamMember
 
@@ -80,6 +81,23 @@ class FitGoalsModelAdmin(admin.ModelAdmin):
                 self).get_action_choices(
                 request,
                 default_choices=default_choices)
+        )
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        Overload the super class function to limit the display set to
+        logined user only.
+        """
+        if db_field.name == 'user' or 'creator' in db_field.name:
+            kwargs['queryset'] = User.objects.filter(
+                username=request.user.username)
+        return (
+            super(
+                FitGoalsModelAdmin,
+                self).formfield_for_foreignkey(
+                db_field,
+                request,
+                **kwargs)
         )
 
 
@@ -206,23 +224,6 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
             return qs
         return qs.filter(user=request.user)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """
-        Overload the super class function to limit the display set to
-        logined user only.
-        """
-        if db_field.name == 'user':
-            kwargs['queryset'] = User.objects.filter(
-                username=request.user.username)
-        return (
-            super(
-                WorkoutLogAdmin,
-                self).formfield_for_foreignkey(
-                db_field,
-                request,
-                **kwargs)
-        )
-
     def get_form(self, request, obj=None, **kwargs):
         """
         Overload the parent class and set the inital value
@@ -242,7 +243,7 @@ class WorkoutLogAdmin(FitGoalsModelAdmin):
     format_duration.short_description = 'Duration'
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(FitGoalsModelAdmin):
 
     """
     Customize the event admin page.
@@ -257,6 +258,17 @@ class EventAdmin(admin.ModelAdmin):
         'event_location',
     )
 
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        Overload the parent class and set the inital value
+        for user selections to logined user.
+        """
+        form = super(EventAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['event_creator'].initial = request.user
+        return form
+
+    def changelist_view(self, request, extra_context=None):
+        return redirect('fitgoals.views.events_view')
 
 class TeamAdmin(admin.ModelAdmin):
 
@@ -300,5 +312,5 @@ user_admin_site.register(Event, EventAdmin)
 
 # admin.site.register(WorkoutLog, WorkoutLogAdmin)
 admin.site.register(WorkoutType, WorkoutTypeAdmin)
-admin.site.register(Event, EventAdmin) 
+admin.site.register(Event, EventAdmin)
 admin.site.register(Team, TeamAdmin)
