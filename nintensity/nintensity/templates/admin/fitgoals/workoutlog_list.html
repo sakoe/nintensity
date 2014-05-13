@@ -96,11 +96,10 @@
     </div>
   </div>
 
-<h3>Total workout time:</h3>
-<ul>
+<h3 id="workout_total">Total Workout Time:</h3>
+<ul id="workout_total_times">
 {% for key, value in total.items %}
- <li> {{key}} - {{value}} </li>
+  <li>{{key}}: {{value}}</li>
 {% endfor %}
 </ul>
-
 {% endblock %}
