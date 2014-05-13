@@ -59,10 +59,10 @@ body {
 }
 #header ul li a:hover {
     color: rgb(0,0,0);
-    background-color: rgb(222,222,222);
+    background-color: rgb(199,199,199);
 }
 #header ul li a:active {
-    background-color: rgb(222,222,222);
+    background-color: rgb(199,199,199);
 }
 
 
@@ -86,10 +86,10 @@ body {
 /*login and registration forms*/
 #container form {
     display: block;
-    width: 400px;
+    width: 880px;
     margin: 0 auto;
     padding: 40px;
-    border: 1px solid rgb(222,222,222);
+    border: 1px solid rgb(199,199,199);
 }
 #container form p, #container form p:first-of-type {
     margin: 0 0 10px;
@@ -97,32 +97,36 @@ body {
 }
 #container form ul li {
     list-style: none;
-    text-align: left;
+    text-align: center;
     color: rgb(255,0,0);
-    margin: 0 0 2px 200px;
+    margin: 0 auto 2px;
 }
 #container form p label {
     display: block;
-    float: left;
-    width: 190px;
+    margin: 0 auto;
+    width: 400px;
     height: 32px;
-    text-align: right;
-    padding-right: 10px;
+    text-align: center;
     line-height: 32px;
+    clear: both;
 }
 #container form p input {
+    display: block;
     margin: 0 auto;
     padding: 0 10px;
-    border: 1px solid rgb(222,222,222);
-    width: 178px;
-    height: 28px;
+    border: 1px solid rgb(199,199,199);
+    width: 380px;
+    height: 32px;
     line-height: 100%;
     font-size: 16px;
+    clear: both;
+    text-align: center;
 }
 #container form input[type='submit'] {
+    display: block;
+    margin: 0 auto;
     width: 400px;
-    height: 45px;
-    margin: 0;
+    height: 32px;
     font-size: 16px;
 }
 #container form p#reset_password {
@@ -140,6 +144,7 @@ body {
 #container form p#reset_password a:hover {
     color: rgb(0,0,0);
 }
+
 
 /*changelist-form form*/
 #container ul.object-tools {
@@ -183,7 +188,7 @@ body {
     background-color: rgb(255,255,255);
 }
 #container div#content-main form table tbody tr:nth-of-type(odd) {
-    background-color: rgb(222,222,222);
+    background-color: rgb(199,199,199);
 }
 #container div#content-main form table tbody tr:nth-of-type(even) {
     background-color: rgb(244,244,244);
@@ -236,6 +241,8 @@ body {
     border-collapse: collapse;
 }
 
+
+
 /*workoutlog_form and workouttype_form*/
 #container div#content-main form#workoutlog_form,
 #container div#content-main form#workouttype_form {
@@ -251,7 +258,7 @@ body {
     display: block;
     float: left;
     font-size: 16px;
-    width: 33.333333%;
+    width: 25%;
 }
 #container div#content-main form#workoutlog_form ul.errorlist,
 #container div#content-main form#workouttype_form ul.errorlist {
@@ -264,17 +271,119 @@ body {
 }
 
 
-
-/*FOOTER*/
-#footer {
-    height: 128px;
-    width: 100%;
-    background-color: rgb(244,244,244);
+/* Workout Form */
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div label.required {
+    width: 150px;
+    text-align: right;
+    font-size: 16px;
 }
-#footer #footer_content {
-    width: 960px;
-    margin: 0 auto;
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div input {
+    width: 400px;
+    height: 32px;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div p.help {
+    padding-left: 160px;
+    font-size: 14px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div label {
+    width: 150px;
+    text-align: right;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div p.datetime {
+    display: block;
+    float: left;
+    clear: right;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div p.datetime input {
+    width: 384px;
+    height: 32px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div p {
+    font-size: 16px;
+    display: block;
+    float: left;
+    width: 400px;
+    margin: 0;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div div.submit-row p.deletelink-box {
+    display: block;
+    width: 25%;
+    height: 32px;
+    margin: 0;
+    padding: 0;
     text-align: center;
+    font-size: 16px;
+}
+
+/* Event Form */
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div label.required {
+    width: 150px;
+    text-align: right;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div input {
+    width: 400px;
+    height: 32px;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div textarea#id_event_description.vLargeTextField {
+    width: 400px;
+}    
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div label {
+    width: 150px;
+    text-align: right;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.datetime {
+    display: block;
+    float: left;
+    clear: right;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;    
+}
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.datetime input {
+    width: 384px;
+    height: 32px;
+}
+
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div input#id_event_location.vTextField {
+    width: 400px;
+    height: 32px;
+    font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#event_form div div.submit-row input {
+    width: 33.3333333%;
+    display: block;
+    float: left;
 }
 
 
+/* Workout Total */
+h3#workout_total {
+    padding: 22px 0 0 0;
+}
+ul#workout_total_times {
+    list-style: none;
+}
+ul#workout_total_times li {
+    padding-top: 4px;
+}
