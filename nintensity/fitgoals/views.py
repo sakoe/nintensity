@@ -37,7 +37,7 @@ def final_grouper(timely_group):
     for year in timely_group:
         year_grouping = []
         for each in range(12,0,-1):
-            year_month_group = [year[0].event_date.year, month_names[each]]
+            year_month_group = [year[0].event_date.year, MONTH_NAMES[each]]
             for event in year:
                 if each == event.event_date.month:
                     year_month_group.append(event)
@@ -95,7 +95,7 @@ def team_and_user_info(request, event_pk):
 
 
 # simple dictionary of month names created for use in multiple views
-month_names = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May',
+MONTH_NAMES = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May',
                6:'June', 7:'July', 8:'August', 9:'September', 10:'October',
                11:'November', 12:'December'}
 
@@ -189,7 +189,7 @@ def event_year_view(request, event_year):
         grouping = []
         for each in month_group:
             grouping.append(each)
-        with_month = (month_names[grouping[0].event_date.month], grouping)
+        with_month = (MONTH_NAMES[grouping[0].event_date.month], grouping)
         grouped_monthly_events.append(with_month)
 
     # current user's info is found
@@ -218,10 +218,7 @@ def event_details_view(request, event_year, event_pk):
     all_teams_for_event, particular_user, can_make_team, can_join_team = team_and_user_info(request, event_pk)
 
     # url assesed
-    if specific_event.event_url:
-        include_url = True
-    else:
-        include_url = False
+    include_url = True if specific_event.event_url else False
 
     # context is set
     context = {}
@@ -289,7 +286,7 @@ def event_delete_view(request, event_year, event_pk):
 @login_required
 def event_join_or_leave_team(request, event_year, event_pk, team_pk):
     """
-    This provides the site's event 'join or leave team' view
+    This provides the site's event join or leave team view
     """
     # event (if it exists) is found
     try:
@@ -353,7 +350,7 @@ def event_join_or_leave_team(request, event_year, event_pk, team_pk):
 @login_required
 def event_make_team(request, event_year, event_pk):
     """
-    This provides the site's event "make team" view
+    This provides the site's event make team view
     """
     # event (if it exists) is found
     try:
@@ -428,7 +425,7 @@ def event_make_team(request, event_year, event_pk):
 @login_required
 def event_delete_team(request, event_year, event_pk, team_pk):
     """
-    This provides the site's event delete view
+    This provides the site's event delete team view
     """
     # event (if it exists) is found
     try:
