@@ -271,11 +271,22 @@ body {
 }
 
 
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div p.errornote,
+html body div#container div#content.colM div#content-main form#event_form div p.errornote {
+    color: rgb(255,0,0);
+    margin-left: 171px;
+}
+
 /* Workout Form */
 html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div label.required {
     width: 150px;
     text-align: right;
     font-size: 16px;
+}
+
+html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row ul.errorlist li {
+    margin-left: 54px;
 }
 
 html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div input {
@@ -334,6 +345,11 @@ html body div#container div#content.colM div#content-main form#event_form div fi
     font-size: 16px;
 }
 
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row ul.errorlist li {
+    margin-left: 54px;
+    text-align: left;
+}
+
 html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div input {
     width: 400px;
     height: 32px;
@@ -376,6 +392,47 @@ html body div#container div#content.colM div#content-main form#event_form div di
     float: left;
 }
 
+/* delete confirm */
+div.delete_confirm form label{
+    width: 400px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+div.delete_confirm form ul {
+    width: 400px;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+}
+
+
+/* UserProfile Form */
+html body div#container div#content.colM div#user_profile_form form li {
+    list-style: none;
+    display: block;
+    margin: 0 0 20px 236px;
+}
+html body div#container div#content.colM div#user_profile_form form li label {
+    display: block;
+    width: 236px;
+}
+
+html body div#container div#content.colM div#user_profile_form form li input {
+    width: 400px;
+    height: 32px;
+    font-size: 16px;
+}
+html body div#container div#content.colM div#user_profile_form form li select {
+    width: 400px;
+}
+html body div#container div#content.colM div#user_profile_form form li span {
+    width: 400px;
+    display: block;
+    font-size: 14px;
+    margin-top: 1px;
+
+}
 
 /* Workout Total */
 h3#workout_total {
