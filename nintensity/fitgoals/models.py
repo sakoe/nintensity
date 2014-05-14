@@ -51,6 +51,9 @@ class WorkoutLog(models.Model):
 
 
 class Event(models.Model):
+    """
+    Model for fitgoals Events
+    """
     event_name = models.CharField(max_length=100, unique=True)
     event_description = models.TextField(blank=True)
     event_date = models.DateTimeField()
@@ -63,6 +66,9 @@ class Event(models.Model):
 
 
 class Team(models.Model):
+    """
+    Model for fitgoals Teams
+    """
     event = models.ForeignKey(Event)
     team_name = models.CharField(max_length=100)
     team_creator = models.ForeignKey(User)
@@ -76,6 +82,9 @@ class Team(models.Model):
 
 
 class TeamMember(models.Model):
+    """
+    Model for fitgoals Team Members (NOT for display in Django Admin)
+    """
     team = models.ForeignKey(Team)
     member = models.ForeignKey(User)
     date_joined = models.DateTimeField('Date Joined', auto_now_add=True)
