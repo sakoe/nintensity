@@ -15,11 +15,13 @@
 </ul>
 {% endif %}
 
-<form action="" method="post">{% csrf_token %}
-{{form.as_ul}}
+<div id="user_profile_form">
+    <form action="" method="post">{% csrf_token %}
+    {{form.as_ul}}
 
-<input type="submit" value="Update" />
+    <input type="submit" value="Update" />
 
-</form>
+    </form>
+</div>
 
 {% endblock %}
