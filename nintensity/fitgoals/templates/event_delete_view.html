@@ -2,10 +2,12 @@
 {% block content %}
             <div><a href="..">Return to {{ specific_event }}</a></div>
             {% if event_creator == particular_user %}
-            <form action="" method="post">{% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Submit" />
-            </form>
+            <div class="delete_confirm">
+                <form action="" method="post">{% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" />
+                </form>
+            </div>
             {% else %}
             <div>You cannot delete someone else's event.</div>
             {% endif %}
