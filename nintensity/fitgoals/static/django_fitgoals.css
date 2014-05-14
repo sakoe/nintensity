@@ -421,6 +421,7 @@ html body div#container div#content.colM div#user_profile_form form li label {
 html body div#container div#content.colM div#user_profile_form form li input {
     width: 400px;
     height: 32px;
+    font-size: 16px;
 }
 html body div#container div#content.colM div#user_profile_form form li select {
     width: 400px;
