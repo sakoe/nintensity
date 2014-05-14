@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-            <div><a href="..">Return to {{ specific_event }}</a></div>
+            <div id="return_to_event"><a href="..">Return to {{ specific_event }}</a></div>
             {% if can_make_team == False or can_join_team == False %}
-            <div>You have already joined a team for this event, so you cannot make a new team.</div>
+            <div id="too_bad">You have already joined a team for this event, so you cannot make a new team.</div>
             {% else %}
             <div id="make_team">
                 <h1>Current Teams</h1>

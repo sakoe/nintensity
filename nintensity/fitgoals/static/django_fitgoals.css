@@ -25,7 +25,7 @@ body {
 #header {
     height: 64px;
     width: 100%;
-    background-color: rgb(244,244,244);
+    background-color: rgb(238,238,238);
     position: fixed;
     top: 0;
     -webkit-box-shadow: 0 1px 3px 0 rgba(222,222,222,1);
@@ -59,10 +59,10 @@ body {
 }
 #header ul li a:hover {
     color: rgb(0,0,0);
-    background-color: rgb(199,199,199);
+    background-color: rgb(211,211,211);
 }
 #header ul li a:active {
-    background-color: rgb(199,199,199);
+    background-color: rgb(211,211,211);
 }
 
 
@@ -73,10 +73,20 @@ body {
     padding: 40px 0;
     width: 960px;
 }
+#container a {
+    color: rgb(0,0,0);
+    text-decoration: none;
+}
+#container a:hover {
+    text-decoration: underline;
+}
 #container p {
+    display: block;
+    width: 880px;
+    margin: 0 auto;
     padding: 0 40px 22px;
     font-size: 16px;
-    line-height: 30px;
+    line-height: 24px;
     text-align: justify;
 }
 #container p:last-of-type {
@@ -89,7 +99,6 @@ body {
     width: 880px;
     margin: 0 auto;
     padding: 40px;
-    border: 1px solid rgb(199,199,199);
 }
 #container form p, #container form p:first-of-type {
     margin: 0 0 10px;
@@ -114,7 +123,7 @@ body {
     display: block;
     margin: 0 auto;
     padding: 0 10px;
-    border: 1px solid rgb(199,199,199);
+    border: 1px solid rgb(211,211,211);
     width: 380px;
     height: 32px;
     line-height: 100%;
@@ -188,10 +197,10 @@ body {
     background-color: rgb(255,255,255);
 }
 #container div#content-main form table tbody tr:nth-of-type(odd) {
-    background-color: rgb(199,199,199);
+    background-color: rgb(211,211,211);
 }
 #container div#content-main form table tbody tr:nth-of-type(even) {
-    background-color: rgb(244,244,244);
+    background-color: rgb(238,238,238);
 }
 #container div#content-main form p {
     margin: 2px 0;
@@ -249,6 +258,11 @@ body {
     font-size: 16px;
 }
 
+#container div#content-main form#workoutlog_form fieldset,
+#container div#content-main form#workouttype_form fieldset {
+    border-color: #EEEEEE;
+}
+
 #container div#content-main form#workoutlog_form div.submit-row,
 #container div#content-main form#workouttype_form div.submit-row {
    margin-bottom: 0;
@@ -270,13 +284,13 @@ body {
     text-align: left;
 }
 
-
-
 html body div#container div#content.colM div#content-main form#workoutlog_form div p.errornote,
 html body div#container div#content.colM div#content-main form#event_form div p.errornote {
     color: rgb(255,0,0);
     margin-left: 171px;
 }
+
+
 
 /* Workout Form */
 html body div#container div#content.colM div#content-main form#workoutlog_form div fieldset.module div.form-row div label.required {
@@ -332,13 +346,30 @@ html body div#container div#content.colM div#content-main form#workoutlog_form d
     display: block;
     width: 25%;
     height: 32px;
+    line-height: 32px;
     margin: 0;
     padding: 0;
     text-align: center;
     font-size: 16px;
 }
 
+html body div#container div#content.colM div#content-main form#workoutlog_form div div.submit-row p.deletelink-box a.deletelink {
+    display: block;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 16px;
+    background: none;
+}
+
 /* Event Form */
+html body div#container div#content.colM div#content-main form#event_form div fieldset {
+    border-color: #EEEEEE;
+}
+
 html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div label.required {
     width: 150px;
     text-align: right;
@@ -368,6 +399,7 @@ html body div#container div#content.colM div#content-main form#event_form div fi
 
 html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.datetime {
     display: block;
+    width: 400px;
     float: left;
     clear: right;
     margin: 0;
@@ -392,6 +424,11 @@ html body div#container div#content.colM div#content-main form#event_form div di
     float: left;
 }
 
+html body div#container div#content.colM div#content-main form#event_form div div.submit-row p.deletelink-box {
+    display: none;
+    font-size: 16px;
+}
+
 /* delete confirm */
 div.delete_confirm form label{
     width: 400px;
@@ -405,7 +442,6 @@ div.delete_confirm form ul {
     margin: 10px auto;
     text-align: center;
 }
-
 
 /* UserProfile Form */
 html body div#container div#content.colM div#user_profile_form form li {
@@ -443,4 +479,215 @@ ul#workout_total_times {
 }
 ul#workout_total_times li {
     padding-top: 4px;
+}
+
+
+
+/* Events & Teams */
+#add_event h1 {
+    display: block;
+    width: 640px;
+    margin: 0 auto 40px;
+}
+#upcoming_events {
+    padding: 0 0 40px 0;
+}
+#upcoming_events h1,
+#past_events h1 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+#upcoming_events h2,
+#past_events h2 {
+    display: block;
+    width: 640px;
+    margin: 0 auto;
+    padding: 1px 0 3px 5px;
+    border-bottom: solid 1px rgb(211,211,211);
+}
+#upcoming_events h3,
+#past_events h3 {
+    display: block;
+    width: 640px;
+    margin: 0 auto;
+    padding: 5px 0 0 40px;
+}
+#events table {
+    width: 600px;
+    margin: 3px auto 5px;
+    border-spacing: 0 0;
+}
+#events table tr:nth-of-type(odd) {
+    background-color: rgb(211,211,211);
+}
+#events table tr:nth-of-type(even) {
+    background-color: rgb(238,238,238);
+}
+#events table td {
+    padding: 5px;
+}
+#events table td.event_day {
+    width: 60px;
+    text-align: center;
+}
+
+
+h1#see_all_events {
+    display: block;
+    width: 640px;
+    margin: 0 auto 40px;
+}
+#events_this_year h1 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+#events_this_year h2 {
+    display: block;
+    width: 640px;
+    margin: 0 auto;
+    padding: 1px 0 3px 5px;
+}
+#events_this_year table {
+    width: 600px;
+    margin: 0 auto 5px;
+    border-spacing: 0 0;
+}
+#events_this_year table tr:nth-of-type(odd) {
+    background-color: rgb(211,211,211);
+}
+#events_this_year table tr:nth-of-type(even) {
+    background-color: rgb(238,238,238);
+}
+#events_this_year table td {
+    padding: 5px;
+}
+#events_this_year table td.event_day {
+    width: 60px;
+    text-align: center;
+}
+
+
+h1#see_all_events_from_details {
+    display: block;
+    width: 640px;
+    margin: 0 auto;
+}
+h1#see_events_in_year {
+    display: block;
+    width: 640px;
+    margin: 0 auto 40px;
+}
+#event_details {
+    margin: 0 0 40px 0;
+}
+#event_details h1 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+#event_details ul {
+    display: block;
+    width: 640px;
+    margin: 0 auto;
+    padding: 5px 0;
+}
+#event_details ul li {
+    padding: 0 0 6px 0;
+}
+
+
+div#event_details ul,
+div#event_teams ul {
+    list-style: none;
+}
+#event_teams h1 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+
+.team {
+    display: block;
+    width: 600px;
+    margin:0 auto 5px;
+    padding: 20px;
+    text-align: center;
+    border: solid 1px rgb(211,211,211);
+}
+#event_teams div.team h1 {
+    border-bottom: 0;
+    width: 600px;
+}
+#event_teams h2 {
+    display: block;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border: solid 1px rgb(211,211,211);
+}
+
+#return_to_event {
+    display: block;
+    width: 400px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+#too_bad {
+    text-align: center;
+}
+div#make_team h1 {
+    text-align: center;
+    padding: 0 0 5px 0;
+}
+div#make_team ul {
+    display: block;
+    width: 400px;
+    margin: 0 auto 20px;
+    list-style: none;
+    padding: 20px;
+    border: solid 1px rgb(211,211,211);
+}
+#make_team form {
+    display: block;
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: solid 1px rgb(211,211,211);
+}
+#make_team form p {
+    width: 400px;
+}
+
+div#make_team ul.errorlist {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+div#make_team ul li {
+    list-style: none;
+    text-align: center;
+    padding: 5px;
+}
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.url {
+    display: block;
+    float: left;
+    width: 400px;
+}
+html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.url input#id_event_url.vURLField {
+    width: 384px;
 }
