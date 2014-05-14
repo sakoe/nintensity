@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-            <div><a href="../..">Return to {{ specific_event }}</a></div>
             {% if team_creator == True %}
             <div class="delete_confirm">
                 <form action="" method="post">{% csrf_token %}
