@@ -1,8 +1,0 @@
-include LICENSE.txt
-include README.md
-recursive-include nintensity/templates *
-recursive-include fitgoals/fixtures *
-recursive-include fitgoals/static *
-recursive-include fitgoals/templates *
-recursive-include userprofile/templates *
-recursive-include doc *

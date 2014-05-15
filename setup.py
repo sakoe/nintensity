@@ -8,10 +8,11 @@ setup(
     author='Nathan S., Gary P., Sako E.',
     author_email='spe@i-sako.com',
     packages=find_packages(),
+    include_package_data=True,
     url='http://pypi.python.org/pypi/nintensity/',
     license='LICENSE.txt',
     description='A Django-based project that tracks fitness metrics for individuals and teams',
-    long_description=open('README.md').read(),
+    long_description=open('nintensity/README.md').read(),
     install_requires=[
         "Django == 1.6.2",
         "pytest",
