@@ -13,8 +13,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import Sum
 from django.shortcuts import redirect
-from fitgoals.models import WorkoutLog, WorkoutType, Event
-from fitgoals.models import Team, TeamMember
+from .fitgoals.models import WorkoutLog, WorkoutType, Event
+from .fitgoals.models import Team, TeamMember
+
 
 class UserAdminAuthenticationForm(AuthenticationForm):
 
@@ -269,6 +270,13 @@ class EventAdmin(FitGoalsModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         return redirect('fitgoals.views.events_view')
+
+    def has_change_permission(self, request, obj=None):
+        if (super(EventAdmin, self).has_change_permission(request, obj)):
+            return request.user == obj.event_creator
+        else:
+            False
+
 
 class TeamAdmin(admin.ModelAdmin):
 
