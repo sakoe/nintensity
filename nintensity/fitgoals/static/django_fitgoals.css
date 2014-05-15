@@ -251,7 +251,6 @@ body {
 }
 
 
-
 /*workoutlog_form and workouttype_form*/
 #container div#content-main form#workoutlog_form,
 #container div#content-main form#workouttype_form {
@@ -690,4 +689,14 @@ html body div#container div#content.colM div#content-main form#event_form div fi
 }
 html body div#container div#content.colM div#content-main form#event_form div fieldset.module div.form-row div p.url input#id_event_url.vURLField {
     width: 384px;
+}
+
+
+html body div#container div#content.flex div#content-main div#changelist.module form#changelist-form p.paginator {
+    width: 950px;
+    padding: 0 5px 3px;
+}
+
+p#error_404 {
+    text-align: center;
 }
