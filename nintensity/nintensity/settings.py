@@ -20,11 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = ')8l#bad!+84x2+njb1a9$4g^2nodunty+n_0f$tworxxw9o-!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# https://docs.djangoproject.com/en/1.4/ref/contrib/staticfiles/#django-admin-option---insecure
+# When DEBUG set to false, use "python manage.py runserver --insecure" when testing
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -96,7 +98,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
