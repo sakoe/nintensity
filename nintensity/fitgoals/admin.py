@@ -273,7 +273,10 @@ class EventAdmin(FitGoalsModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         if (super(EventAdmin, self).has_change_permission(request, obj)):
-            return request.user == obj.event_creator
+            if (obj is None):
+                return True
+            else:
+                return request.user == obj.event_creator
         else:
             False
 
