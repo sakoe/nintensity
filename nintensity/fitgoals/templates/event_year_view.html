@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-            <h1><a href="..">See All Events</a></h1>
+            <h1 id="see_all_events"><a href="..">See All Events</a></h1>
             <div id="events_this_year">
                 <h1>Events in {{ event_year }}</h1>
                 {% for month in grouped_monthly_events %}
@@ -11,11 +11,12 @@
                         {% for event in events %}
                             {% if event.event_date.day %}
                         <tr>
-                            <td>{{ event.event_date.day }}</td>
+                            <td class="event_day">{{ event.event_date.day }}</td>
                             <td>
-                            <a href="{{ event.pk }}/">{{ event.event_name }}</a>
+                            <a href="{{ event.pk }}/"><strong>{{ event.event_name }}</strong></a>
                             {% if particular_user == event.event_creator %}
-                            <a href="{{ event.pk }}/delete-event/">Delete This Event</a>
+                            <a href="../../user/fitgoals/event/{{ event.pk }}/">(Edit This Event)</a>
+                            <a href="{{ event.pk }}/delete-event/">(Delete This Event)</a>
                             {% endif %}
                             </td>
                         </tr>
