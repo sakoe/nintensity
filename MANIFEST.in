@@ -1,0 +1,8 @@
+include nintensity/LICENSE.txt
+include nintensity/README.md
+recursive-include nintensity/nintensity/templates *
+recursive-include nintensity/fitgoals/fixtures *
+recursive-include nintensity/fitgoals/static *
+recursive-include nintensity/fitgoals/templates *
+recursive-include nintensity/userprofile/templates *
+recursive-include nintensity/doc *
