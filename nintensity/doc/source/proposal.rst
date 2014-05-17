@@ -4,9 +4,9 @@ Fitness metrics for individuals and teams
 
 Project team
 ------------------------
-* Gary Pei <guangyu.pei@gmail.com>
-* Nathan Savage <nathansavagemail@gmail.com>
-* Sako Eaton <sako.eaton@gmail.com>
+* Gary Pei
+* Nathan Savage
+* Sako Eaton
 
 Code to be hosted at GitHub:
 https://github.com/sakoe/nintensity

@@ -19,6 +19,8 @@ def user_profile(request):
             form.save()
             messages.success(request, 'Settings updated.')
             return HttpResponseRedirect('')
+        else:
+            return HttpResponseRedirect('')
     else:
         user = request.user
         profile = user.profile
@@ -30,6 +32,5 @@ def user_profile(request):
         args['form'] = form
 
         return render(request, 'profile.html', args)
-
 
 
