@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from fitgoals.admin import WorkoutLog, user_admin_site
+from fitgoals.admin import WorkoutLog, WorkoutType, user_admin_site
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.contrib.auth.models import User
@@ -497,4 +497,61 @@ def leaderboards_view(request):
     """
     This provides the site's leaderboards view
     """
-    return render(request, 'leaderboards_view.html')
+    # current month, current month name and current year are determined
+    current_month = datetime.date.today().month
+    month_name = MONTH_NAMES[current_month]
+    current_year = datetime.date.today().year
+
+    # current workout types determined
+    workout_types = WorkoutType.objects.all()
+
+    # current site users determined
+    site_users = User.objects.all()
+
+    # user_tallies list is whipped up...
+    # lists [username, workout type id, workout type, duration for month(secs)]
+    # are placed into lists per user
+    # which are placed into a user_tallies list
+    user_tallies = []
+    for user in site_users:
+        user_data = []
+        for category in workout_types:
+            workout_group = []
+            workout_group.append(user.username)
+            workout_group.append(category.id)
+            workout_group.append(category.workout_type)
+
+            # total duration(secs) for user & workout type determined
+            all_workouts = WorkoutLog.objects.all()
+            user_workouts = all_workouts.filter(
+                user_id=user.id,
+                workout_type=category.id,
+                workout_date__month=current_month
+            )
+            
+            total_duration = 0
+            for each in user_workouts:
+                h = each.workout_duration.hour*60*60
+                m = each.workout_duration.minute*60
+                s = each.workout_duration.second
+                total_duration += (h + m + s) 
+            
+            workout_group.append(total_duration)
+
+            user_data.append(workout_group)
+        user_tallies.append(user_data)
+
+    # context is set
+    context = {}
+    context['current_month'] = current_month
+    context['month_name'] = month_name
+    context['current_year'] = current_year
+    context['user_tallies'] = user_tallies
+    return render(request, 'leaderboards_view.html', context)
+
+
+
+
+
+
+

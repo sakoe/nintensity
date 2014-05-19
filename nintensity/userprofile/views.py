@@ -33,4 +33,24 @@ def user_profile(request):
 
         return render(request, 'profile.html', args)
 
+    # if request.method == 'POST':
+    #     form = UserProfileForm(request.POST, instance=request.user.profile)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, 'Settings updated.')
+    #         return HttpResponseRedirect('')
+    #     else:
+    #         return HttpResponseRedirect('')
+    # else:
+    #     user = request.user
+    #     profile = user.profile
+    #     form = UserProfileForm(instance=profile)
+
+    #     args = {}
+    #     args.update(csrf(request))
+
+    #     args['form'] = form
+
+    #     return render(request, 'profile.html', args)
+
 
