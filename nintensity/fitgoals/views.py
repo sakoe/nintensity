@@ -504,6 +504,9 @@ def leaderboards_view(request):
 
     # current workout types determined
     workout_types = WorkoutType.objects.all()
+    workout_types_list = []
+    for each in workout_types:
+        workout_types_list.append((each.id, each.workout_type))
 
     # current site users determined
     site_users = User.objects.all()
@@ -541,12 +544,34 @@ def leaderboards_view(request):
             user_data.append(workout_group)
         user_tallies.append(user_data)
 
+    # final list for leaderboards created
+    leaderboards_list = []
+    for each in workout_types_list:
+        workout_type_grouping = []
+        workout_type_grouping.append(each)
+        workout_type_grouping.append([])
+        leaderboards_list.append(workout_type_grouping)
+
+    for each in leaderboards_list:
+        for user_data in user_tallies:
+            for workout_group in user_data:
+                if workout_group[1] == each[0][0] and workout_group[3] > 0:
+                    each[1].append(workout_group)
+
+    for each in leaderboards_list:
+        each[1] = sorted(each[1], key=lambda x: x[3], reverse=True)
+
+    for grouping in leaderboards_list:
+        if len(grouping[1]) > 0:
+            for each in grouping[1]:
+                each.append((float(each[3])/float(grouping[1][0][3]))*100)
+
     # context is set
     context = {}
     context['current_month'] = current_month
     context['month_name'] = month_name
     context['current_year'] = current_year
-    context['user_tallies'] = user_tallies
+    context['leaderboards_list'] = leaderboards_list
     return render(request, 'leaderboards_view.html', context)
 
 
