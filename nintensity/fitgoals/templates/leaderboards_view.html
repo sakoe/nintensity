@@ -1,4 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-        <p>LEADERBOARDS DISPLAY HERE WHEN LOGGED IN</p>
+        <div id="leaders">
+            <h1>FitGoals Workout Leaders for {{ month_name }}, {{ current_year }}</h1>
+            {% if not leaderboards_list.0 %}
+            <h2>You need to create some workout types!</h2>
+            {% else %}
+                {% for grouping in leaderboards_list %}
+                <h2>{{ grouping.0.1 }}</h2>
+                    {% if not grouping.1.0 %}
+                    <ul class="lonely_workout">
+                        <li>Be the first to do this kind of workout in
+                            {{ month_name }}!</li>
+                    </ul>
+                    {% else %}
+                    <ul class="contested_workout_names">
+                        {% for each in grouping.1 %}
+                        <li><strong>{{ each.0 }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                    <ul class="contested_workout">
+                        {% for each in grouping.1 %}
+                        <li style="width: {{ each.4 }}%;"></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
 {% endblock %}

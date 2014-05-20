@@ -691,7 +691,77 @@ html body div#container div#content.colM div#content-main form#event_form div fi
     width: 384px;
 }
 
+/*LEADERBOARDS*/
+#leaders h1 {
+    width: 640px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+#leaders h2 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+#leaders ul.contested_workout_names {
+    display: block;
+    float: left;
+    width: 95px;
+    margin: 0 0 40px 160px;
+    padding: 5px 5px 5px 0;
+    list-style: none;
+    text-align: right;
+}
+#leaders ul.contested_workout_names li {
+    display: block;
+    margin: 0 0 5px 0;
+    padding: 0;
+    height: 27px;
+    line-height: 27px;
+    color: rgb(0,0,0);
+}
+#leaders ul.contested_workout_names li:last-of-type {
+    margin: 0;
+}
+#leaders ul.contested_workout {
+    display: block;
+    float: right;
+    width: 540px;
+    margin: 0 160px 40px 0;
+    padding: 5px 0;
+    list-style: none;
+    background-color: rgb(255,255,255);
+}
+#leaders ul.contested_workout li {
+    display: block;
+    margin: 0 0 5px 0;
+    height: 27px;
+    line-height: 27px;
+    color: rgb(0,0,0);
+    background-color: rgb(211,211,211);
+}
+#leaders ul.contested_workout li:last-of-type {
+    margin: 0;
+}
+#leaders ul.lonely_workout {
+    display: block;
+    width: 640px;
+    margin: 0 auto 40px;
+    padding: 5px 0 0 0;
+    list-style: none;
+    background-color: rgb(255,255,255);
+    border: none;
+    text-align: center;
+}
+#leaders ul.lonely_workout li {
+    background-color: rgb(255,255,255);
+}
 
+
+
+/*MOP-UP*/
 html body div#container div#content.flex div#content-main div#changelist.module form#changelist-form p.paginator {
     width: 950px;
     padding: 0 5px 3px;
