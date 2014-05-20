@@ -544,7 +544,7 @@ def leaderboards_view(request):
             user_data.append(workout_group)
         user_tallies.append(user_data)
 
-    # final list for leaderboards created
+    # final list for leaderboards is created
     leaderboards_list = []
     for each in workout_types_list:
         workout_type_grouping = []

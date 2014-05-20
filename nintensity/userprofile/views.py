@@ -17,10 +17,9 @@ Displays a flash message on successful updates.
         form = UserProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Settings updated.')
             return HttpResponseRedirect('')
-        else:
-            return HttpResponseRedirect('')
+        else: # temp "fix" until Sako fixes blank field submission problem
+            return HttpResponseRedirect('') # temp "fix" until Sako fixes blank field submission problem
     else:
         user = request.user
         profile = user.profile

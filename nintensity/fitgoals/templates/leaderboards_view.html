@@ -13,10 +13,14 @@
                             {{ month_name }}!</li>
                     </ul>
                     {% else %}
+                    <ul class="contested_workout_names">
+                        {% for each in grouping.1 %}
+                        <li><strong>{{ each.0 }}</strong></li>
+                        {% endfor %}
+                    </ul>
                     <ul class="contested_workout">
                         {% for each in grouping.1 %}
-                        <li style="width: {{ each.4 }}%;">{{ each.0 }} has earned {{ each.3 }}
-                            {{ grouping.0.1 }} Points</li>
+                        <li style="width: {{ each.4 }}%;"></li>
                         {% endfor %}
                     </ul>
                     {% endif %}
