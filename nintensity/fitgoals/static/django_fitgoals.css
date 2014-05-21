@@ -484,15 +484,10 @@ ul#workout_total_times li {
 
 /* Events & Teams */
 #add_event h1 {
-    display: block;
     width: 640px;
     margin: 0 auto 40px;
 }
-#upcoming_events {
-    padding: 0 0 40px 0;
-}
-#upcoming_events h1,
-#past_events h1 {
+#events h1 {
     display: block;
     width: 640px;
     text-align: center;
@@ -500,16 +495,25 @@ ul#workout_total_times li {
     margin: 0 auto 5px;
     padding-bottom: 5px;
 }
-#upcoming_events h2,
-#past_events h2 {
+#events_list {
+    padding: 0 0 40px 0;
+}
+#events_list h1 {
+    display: block;
+    width: 640px;
+    text-align: center;
+    border-bottom: solid 1px rgb(0,0,0);
+    margin: 0 auto 5px;
+    padding-bottom: 5px;
+}
+#events_list h2 {
     display: block;
     width: 640px;
     margin: 0 auto;
     padding: 1px 0 3px 5px;
     border-bottom: solid 1px rgb(211,211,211);
 }
-#upcoming_events h3,
-#past_events h3 {
+#events_list h3 {
     display: block;
     width: 640px;
     margin: 0 auto;
@@ -533,6 +537,11 @@ ul#workout_total_times li {
     width: 42px;
     text-align: center;
 }
+
+
+
+
+
 
 
 h1#see_all_events {
@@ -569,7 +578,7 @@ h1#see_all_events {
     padding: 5px;
 }
 #events_this_year table td.event_day {
-    width: 60px;
+    width: 42px;
     text-align: center;
 }
 

@@ -4,63 +4,9 @@
                 <h1><a href="../user/fitgoals/event/add/">Add New Event</a></h1>
             </div>
             <div id="events">
-                {% if future_grouping %}
-                <div id="upcoming_events">
-                    <h1>Upcoming Events</h1>
-                    {% for yearly in future_grouping %}
-                    <h2><a href="{{ yearly.0.0 }}/">{{ yearly.0.0 }}</a></h2>
-                        {% for monthly in yearly %}
-                    <h3>{{ monthly.1 }}</h3>
-                    <table>
-                        <tbody>
-                            {% for event in monthly %}
-                                {% if event.event_date.day %}
-                            <tr>
-                                <td class="event_day">{{ event.event_date.day }}</td>
-                                <td class="event_name">
-                                <a href="{{ event.event_date.year }}/{{ event.pk }}/"><strong>{{ event.event_name }}</strong></a>
-                                {% if particular_user == event.event_creator %}
-                                <a href="../user/fitgoals/event/{{ event.pk }}/">(Edit This Event)</a>
-                                <a href="{{ event.event_date.year }}/{{ event.pk }}/delete-event/">(Delete This Event)</a>
-                                {% endif %}
-                                </td>
-                            </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                        {% endfor %}
-                    {% endfor %}
+                <h1>All Events</h1>
+                <div id="events_list">
+                    {{ events_group }}
                 </div>
-                {% endif %}
-                {% if past_grouping %}
-                <div id="past_events">
-                    <h1>Past Events</h1>
-                    {% for yearly in past_grouping %}
-                    <h2><a href="{{ yearly.0.0 }}/">{{ yearly.0.0 }}</a></h2>
-                        {% for monthly in yearly %}
-                    <h3>{{ monthly.1 }}</h3>
-                    <table>
-                        <tbody>
-                            {% for event in monthly %}
-                                {% if event.event_date.day %}
-                            <tr>
-                                <td class="event_day">{{ event.event_date.day }}</td>
-                                <td class="event_name">
-                                <a href="{{ event.event_date.year }}/{{ event.pk }}/"><strong>{{ event.event_name }}</strong></a>
-                                {% if particular_user == event.event_creator %}
-                                <a href="../user/fitgoals/event/{{ event.pk }}/">(Edit This Event)</a>
-                                <a href="{{ event.event_date.year }}/{{ event.pk }}/delete-event/">(Delete This Event)</a>
-                                {% endif %}
-                                </td>
-                            </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-                {% endif %}
             </div>
 {% endblock %}
