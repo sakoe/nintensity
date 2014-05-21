@@ -530,7 +530,7 @@ ul#workout_total_times li {
     padding: 5px;
 }
 #events table td.event_day {
-    width: 60px;
+    width: 42px;
     text-align: center;
 }
 
@@ -702,13 +702,13 @@ html body div#container div#content.colM div#content-main form#event_form div fi
     width: 640px;
     text-align: center;
     border-bottom: solid 1px rgb(0,0,0);
-    margin: 0 auto 5px;
+    margin: 0 auto;
     padding-bottom: 5px;
 }
 #leaders ul.contested_workout_names {
     display: block;
     float: left;
-    width: 95px;
+    width: 120px;
     margin: 0 0 40px 160px;
     padding: 5px 5px 5px 0;
     list-style: none;
@@ -728,7 +728,7 @@ html body div#container div#content.colM div#content-main form#event_form div fi
 #leaders ul.contested_workout {
     display: block;
     float: right;
-    width: 540px;
+    width: 515px;
     margin: 0 160px 40px 0;
     padding: 5px 0;
     list-style: none;

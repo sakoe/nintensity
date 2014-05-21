@@ -178,11 +178,11 @@ def event_year_view(request, event_year):
         raise Http404
 
     # year's events are found and sorted
-    events_this_year = Event.objects.filter(event_date__year=str(event_year)).order_by('-event_date')
+    events_this_year = Event.objects.filter(event_date__year=str(event_year)).order_by('event_date')
 
     # events are grouped by month
     grouped_monthly_events = []
-    for each in range(12,0,-1):
+    for each in range(0,12,1):
         month_group = events_this_year.filter(event_date__month=str(each))
         if len(month_group) < 1:
                 continue
