@@ -25,6 +25,7 @@ body {
 #header {
     height: 64px;
     width: 100%;
+    z-index: 1000;
     background-color: rgb(238,238,238);
     position: fixed;
     top: 0;
@@ -487,41 +488,35 @@ ul#workout_total_times li {
     width: 640px;
     margin: 0 auto 40px;
 }
-#events h1 {
-    display: block;
-    width: 640px;
-    text-align: center;
-    border-bottom: solid 1px rgb(0,0,0);
-    margin: 0 auto 5px;
-    padding-bottom: 5px;
-}
 #events_list {
     padding: 0 0 40px 0;
+}
+#events_list:last-of-type {
+    padding: 0;
 }
 #events_list h1 {
     display: block;
     width: 640px;
     text-align: center;
     border-bottom: solid 1px rgb(0,0,0);
-    margin: 0 auto 5px;
+    margin: 0 auto;
     padding-bottom: 5px;
 }
 #events_list h2 {
     display: block;
     width: 640px;
-    margin: 0 auto;
-    padding: 1px 0 3px 5px;
-    border-bottom: solid 1px rgb(211,211,211);
+    margin: 40px auto 0;
+    padding: 5px 0 3px 0;
 }
 #events_list h3 {
     display: block;
     width: 640px;
-    margin: 0 auto;
-    padding: 5px 0 0 40px;
+    margin: 15px auto 5px;
+    padding: 0;
 }
 #events table {
     width: 600px;
-    margin: 3px auto 5px;
+    margin: 0 auto;
     border-spacing: 0 0;
 }
 #events table tr:nth-of-type(odd) {
@@ -554,18 +549,18 @@ h1#see_all_events {
     width: 640px;
     text-align: center;
     border-bottom: solid 1px rgb(0,0,0);
-    margin: 0 auto 5px;
+    margin: 0 auto;
     padding-bottom: 5px;
 }
 #events_this_year h2 {
     display: block;
     width: 640px;
-    margin: 0 auto;
-    padding: 1px 0 3px 5px;
+    margin: 15px auto 5px;
+    padding: 0;
 }
 #events_this_year table {
     width: 600px;
-    margin: 0 auto 5px;
+    margin: 0 auto;
     border-spacing: 0 0;
 }
 #events_this_year table tr:nth-of-type(odd) {
@@ -634,7 +629,7 @@ div#event_teams ul {
     margin:0 auto 5px;
     padding: 20px;
     text-align: center;
-    border: solid 1px rgb(211,211,211);
+    border: solid 1px rgb(166,166,166);
 }
 #event_teams div.team h1 {
     border-bottom: 0;
@@ -646,7 +641,7 @@ div#event_teams ul {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
-    border: solid 1px rgb(211,211,211);
+    border: solid 1px rgb(166,166,166);
 }
 
 #return_to_event {

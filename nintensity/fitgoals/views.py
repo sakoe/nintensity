@@ -113,6 +113,8 @@ def events_view(request):
                         current_event.append(MONTH_NAMES[month_num])
                         current_event.append(event.event_date.day)
                         current_event.append(event.event_name)
+                        current_event.append(event.id)
+                        current_event.append(event.event_creator)
                         month_group.append(current_event)
                 if len(month_group) > 0:
                     month_group = sorted(month_group, key=lambda x: x[3])

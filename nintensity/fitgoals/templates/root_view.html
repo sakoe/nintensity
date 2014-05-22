@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     {% if user.is_authenticated and user.is_staff %}
-        <p>Currently logged in as Staff - <a href="{% url 'admin:index' %}">Click here to view Django administration</a></p>
+        <p><em>Currently logged in as Staff</em> --
+        <strong><a href="{% url 'admin:index' %}">View Django Administration</a></strong> --
+        <strong><a href="http://docs.fitgoals.us/docs/">View Project Documentation</a></strong></p>
     {% else %}
         <p>If you're like most people, the hardest part of staying fit is maintaining the motivation to exercise regularly. Working out is hard, and it requires a lot more willpower than indulging in another snack. For any number of reasons, you find yourself making excuses for not getting the exercise your body needs. It happens to all of us.</p>
         <p>That's why we brought you FitGoals.</p>
