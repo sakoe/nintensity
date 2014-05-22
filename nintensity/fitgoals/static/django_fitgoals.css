@@ -447,28 +447,34 @@ div.delete_confirm form ul {
 html body div#container div#content.colM div#user_profile_form form li {
     list-style: none;
     display: block;
-    margin: 0 0 20px 236px;
+    /*margin: 0 0 20px 236px;*/
+    margin: 0 auto 20px;
 }
 html body div#container div#content.colM div#user_profile_form form li label {
     display: block;
-    width: 236px;
+    width: 406px;
+    margin: 0 auto;
 }
 
 html body div#container div#content.colM div#user_profile_form form li input {
+    display: block;
     width: 400px;
     height: 32px;
     font-size: 16px;
+    margin: 0 auto;
 }
 html body div#container div#content.colM div#user_profile_form form li select {
-    width: 400px;
+    display: block;
+    width: 408px;
+    margin: 0 auto;
 }
 html body div#container div#content.colM div#user_profile_form form li span {
-    width: 400px;
+    width: 406px;
     display: block;
     font-size: 14px;
-    margin-top: 1px;
-
+    margin: 1px auto 0;
 }
+
 
 /* Workout Total */
 h3#workout_total {

@@ -97,9 +97,8 @@ def events_view(request):
     if len(Event.objects.all()) > 0:
         # all events dicovered
         all_events = Event.objects.all().order_by('-event_date')
-        # print all_events[0].event_date.year
-        # print all_events[len(all_events) - 1].event_date.year
 
+        # events grouped
         events_group = []
         for year in range(all_events[0].event_date.year, all_events[len(all_events) - 1].event_date.year - 1, -1):
             year_group = []
@@ -151,7 +150,7 @@ def event_year_view(request, event_year):
 
     # events are grouped by month
     grouped_monthly_events = []
-    for each in range(0,12,1):
+    for each in range(1,13,1):
         month_group = events_this_year.filter(event_date__month=str(each))
         if len(month_group) < 1:
                 continue

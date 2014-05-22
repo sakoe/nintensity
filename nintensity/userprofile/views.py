@@ -7,11 +7,11 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def user_profile(request):
     """
-Gets the user profile information if it exists and allows user to update it.
-Creates a new profile for the logged in user if none exists.
-Displays error messages for fields that are not valid.
+    Gets the user profile information if it exists and allows user to update it.
+    Creates a new profile for the logged in user if none exists.
+    Displays error messages for fields that are not valid.
 
-"""
+    """
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
