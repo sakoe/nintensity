@@ -11,43 +11,6 @@ from django import forms
 # FUNCTIONS ####################################################################
 
 
-def event_grouper(timely_events):
-    """
-    function wherein future/past events are grouped by year for the events_view
-    """
-    grouped_events = []
-    for each in range(timely_events[0].event_date.year,
-        timely_events[len(timely_events) - 1].event_date.year - 1, -1):
-        year_group = timely_events.filter(event_date__year=str(each))
-        if len(year_group) < 1:
-            continue
-        grouping = []
-        for each in year_group:
-            grouping.append(each)
-        grouped_events.append(grouping)
-    return grouped_events
-
-
-def final_grouper(timely_group):
-    """
-    function wherein future/past events are regrouped by year (with subgroups by
-    month) for the events_view
-    """
-    final_grouping = []
-    for year in timely_group:
-        year_grouping = []
-        for each in range(12,0,-1):
-            year_month_group = [year[0].event_date.year, MONTH_NAMES[each]]
-            for event in year:
-                if each == event.event_date.month:
-                    year_month_group.append(event)
-            if len(year_month_group) > 2:
-                if year_month_group[0] == year[0].event_date.year:
-                    year_grouping.append(year_month_group)
-        final_grouping.append(year_grouping)
-    return final_grouping
-
-
 def team_and_user_info(request, event_pk):
     """
     function that returns multiple values for multiple event views
@@ -132,32 +95,38 @@ def events_view(request):
     """
     # if at least one event exists...
     if len(Event.objects.all()) > 0:
-        # all events are grouped and sorted in reverse chronological order
+        # all events dicovered
         all_events = Event.objects.all().order_by('-event_date')
-        
-        # future events group is formed
-        future_events = all_events.exclude(event_date__lte=datetime.date.today())
+        # print all_events[0].event_date.year
+        # print all_events[len(all_events) - 1].event_date.year
 
-        # past events group is formed
-        past_events = all_events.exclude(event_date__gte=datetime.date.today())
-
-        if len(future_events) > 0:
-            future_grouping = final_grouper(event_grouper(future_events))
-        else:
-            future_grouping = []
-        
-        if len(past_events) > 0:
-            past_grouping = final_grouper(event_grouper(past_events))
-        else:
-            past_grouping = []
+        events_group = []
+        for year in range(all_events[0].event_date.year, all_events[len(all_events) - 1].event_date.year - 1, -1):
+            year_group = []
+            for month_num in range(1,13,1):
+                month_group = []
+                for event in all_events:
+                    current_event = []
+                    if event.event_date.year == year and event.event_date.month == month_num:
+                        current_event.append(event.event_date.year)
+                        current_event.append(event.event_date.month)
+                        current_event.append(MONTH_NAMES[month_num])
+                        current_event.append(event.event_date.day)
+                        current_event.append(event.event_name)
+                        current_event.append(event.id)
+                        current_event.append(event.event_creator)
+                        month_group.append(current_event)
+                if len(month_group) > 0:
+                    month_group = sorted(month_group, key=lambda x: x[3])
+                    year_group.append(month_group)
+            events_group.append(year_group)
 
         # current user's info is found
         particular_user = User.objects.get(username=request.user)
 
         # context is set
         context = {}
-        context['future_grouping'] = future_grouping
-        context['past_grouping'] = past_grouping
+        context['events_group'] = events_group
         context['particular_user'] = particular_user
         return render(request, 'events_view.html', context)
     
@@ -178,11 +147,11 @@ def event_year_view(request, event_year):
         raise Http404
 
     # year's events are found and sorted
-    events_this_year = Event.objects.filter(event_date__year=str(event_year)).order_by('-event_date')
+    events_this_year = Event.objects.filter(event_date__year=str(event_year)).order_by('event_date')
 
     # events are grouped by month
     grouped_monthly_events = []
-    for each in range(12,0,-1):
+    for each in range(0,12,1):
         month_group = events_this_year.filter(event_date__month=str(each))
         if len(month_group) < 1:
                 continue
